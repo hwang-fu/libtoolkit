@@ -26,6 +26,7 @@ typedef uint64_t        u64     ;
 
 typedef float*          F32Ptr  ;
 typedef double*         F64Ptr  ;
+
 typedef u8*             U8Ptr   ;
 typedef u16*            U16Ptr  ;
 typedef u32*            U32Ptr  ;
@@ -71,6 +72,7 @@ typedef void* (handler_fn) (void*);
 #define copied
 #define borrowed
 #define owned
+
 #define COPIED
 #define BORROWED
 #define OWNED
