@@ -6,6 +6,8 @@
 // -------------------------------------------------------------
 // | Customized Type Aliases |
 // -------------------------------------------------------------
+#ifndef HWANGFU_BASE_TYPES
+#define HWANGFU_BASE_TYPES
 typedef float           f32     ;
 typedef double          f64     ;
 
@@ -38,52 +40,41 @@ typedef uintptr_t       arch    ;
 
 typedef void* (dispose_fn) (void*);
 typedef void* (handler_fn) (void*);
+#endif // HWANGFU_BASE_TYPES
 
 // -------------------------------------------------------------
 // | Standard FILE Stream Aliases |
 // -------------------------------------------------------------
+#ifndef HWANGFU_C_FILE_STREAM
+#define HWANGFU_C_FILE_STREAM
 #define COUT (stdout)
 #define CIN  (stdin)
 #define CERR (stderr)
+#endif // HWANGFU_C_FILE_STREAM
 
 // -------------------------------------------------------------
 // | NULL macro |
 // -------------------------------------------------------------
+#ifndef HWANGFU_NIL_MACRO
+#define HWANGFU_NIL_MACRO
 // Use `nil` / `NIL` as a universal null/zero value.
-#ifndef nil
 #define nil (0)
-#endif // nil
-#ifndef NIL
 #define NIL (0)
-#endif // NIL
+#endif // HWANGFU_NIL_MACRO
 
 // -------------------------------------------------------------
 // | Ownership Annotations |
 // -------------------------------------------------------------
+#ifndef HWANGFU_OWNERSHIP
+#define HWANGFU_OWNERSHIP
 // These are semantic markers - useful for documentation, not functionality.
-#ifndef copied
 #define copied
-#endif // copied
-
-#ifndef borrowed
 #define borrowed
-#endif // borrowed
-
-#ifndef owned
 #define owned
-#endif // owned
-
-#ifndef COPIED
 #define COPIED
-#endif // COPIED
-
-#ifndef BORROWED
 #define BORROWED
-#endif // BORROWED
-
-#ifndef OWNED
 #define OWNED
-#endif // OWNED
+#endif // HWANGFU_OWNERSHIP
 
 // -------------------------------------------------------------
 // | pointer / REFerence helpers |
@@ -127,20 +118,20 @@ typedef void* (handler_fn) (void*);
 // -------------------------------------------------------------
 // | Comparison Helpers |
 // -------------------------------------------------------------
-#ifndef EQ
+#ifndef HWANGFU_COMPARISON_HELPERS
+#define HWANGFU_COMPARISON_HELPERS
 #define EQ(o1, o2)                                                  \
         ((o1) == (o2))
-#endif // EQ
 
-#ifndef NEQ
 #define NEQ(o1, o2)                                                 \
         ((o1) != (o2))
-#endif // NEQ
+#endif // HWANGFU_COMPARISON_HELPERS
 
 // -------------------------------------------------------------
 // | Arithmetic Helpers |
 // -------------------------------------------------------------
-#ifndef ROUNDUP
+#ifndef HWANGFU_ARITHMETIC_HELPERS
+#define HWANGFU_ARITHMETIC_HELPERS
 /**
  * ROUNDUP(n, d):
  *      1. Rounds up `n` to the nearest multiple of `d`.
@@ -150,9 +141,7 @@ typedef void* (handler_fn) (void*);
  */
 #define ROUNDUP(n, d)                                               \
         (((n) + (d) - 1) / (d))
-#endif // ROUNDUP
 
-#ifndef WATERMARK
 /**
  * WATERMARK(used, total):
  *      1. Calculates the usage ratio as a floating-point value.
@@ -160,34 +149,25 @@ typedef void* (handler_fn) (void*);
  */
 #define WATERMARK(used, total)                                      \
         ((total > 0) ? (f64)(used) / (f64)(total) : (f64) 1.0)
+
 #define WATERMARK_HIGH  (.7)
 #define WATERMARK_LOW   (.4)
-#endif // WATERMARK
 
-#ifndef INC
 #define INC(n)                                                      \
     (++(n))
-#endif // INC
 
-#ifndef DEC
 #define DEC(n)                                                      \
     (--(n))
-#endif // DEC
 
-#ifndef PLUS
 #define PLUS(n, amount)                                             \
     ((n) + (amount))
-#endif // PLUS
 
-#ifndef MINUS
 #define MINUS(n, amount)                                            \
     ((n) - (amount))
-#endif // MINUS
 
-#ifndef EPSILON
 // A small enough number.
 #define EPSILON (1e-11)
-#endif // EPSILON
+#endif // HWANGFU_ARITHMETIC_HELPERS
 
 // -------------------------------------------------------------
 // | Special ASCII Characters |
@@ -207,8 +187,15 @@ typedef void* (handler_fn) (void*);
 #define LINE_FEED       ('\n')
 #endif // SPECIAL_ASCII_CHARS
 
-
-
+// -------------------------------------------------------------
+// | Customized Boolean Type |
+// -------------------------------------------------------------
+#ifndef HWANGFU_BOOLEAN_T
+#define HWANGFU_BOOLEAN_T
+typedef bool            Bool        ;
+#define True            (true)
+#define False           (false)
+#endif // HWANGFU_BOOLEAN_T
 
 
 
