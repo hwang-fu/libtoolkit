@@ -5,8 +5,8 @@ LIB		:= ./lib
 .PHONY: all clean test
 
 all:
-	@./build.sh
-	@find . -type f -exec wc -l {} +
+	@./script/build.sh
+	@find . -type f \( -name "*.c" -o -name "*.h" \) -exec wc -l {} +
 
 clean:
 	rm -rf ${INCLUDE}/*
