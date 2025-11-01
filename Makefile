@@ -6,6 +6,8 @@ LIB		:= ./lib
 
 all:
 	@./script/build.sh
+	@echo
+	@echo
 	@find . -type f \( -name "*.c" -o -name "*.h" \) -exec wc -l {} +
 
 clean:
