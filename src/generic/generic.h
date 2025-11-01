@@ -144,6 +144,9 @@ typedef void* (handler_fn) (void*);
 #define ROUNDUP(n, d)                                               \
         (((n) + (d) - 1) / (d))
 
+// A small enough number.
+#define EPSILON (1e-11)
+
 /**
  * WATERMARK(used, total):
  *      1. Calculates the usage ratio as a floating-point value.
@@ -185,20 +188,31 @@ typedef void* (handler_fn) (void*);
 #define ROL64(x,n) ( (u64)(( (u64)(x) << ((u64)(n) & 63u) ) |           \
                             ( (u64)(x) >> ((-( (u64)(n) & 63u)) & 63u) )) )
 
+// ---------------------------------------------------------------------------
+// Simple MIN/MAX macros.
+//
+// NOTE:
+//   • Each argument may be evaluated more than once.
+//     Therefore, do NOT pass expressions with side effects (like i++, func(), etc.).
+//   • Safe only for plain variables or constants.
+//
+// Example:
+//     int m = MIN3(x, y, z);
+//     int m = MIN3(x++, y, z); // WILL BE WRONG!
+// ---------------------------------------------------------------------------
 #define MIN2(a, b)                                                      \
-    ((a) < (b)) ? (a) : (b)
+    (((a) < (b)) ? (a) : (b))
 
 #define MIN3(a, b, c)                                                   \
-    (((a) < (b)) ? (((a) < (c)) ? (a) : (c)) : (((b) < (c)) ? (b) : (c)))
+    ((MIN2(a, b) < (c)) ? (MIN2(a, b)) : (c))
 
 #define MAX2(a, b)                                                      \
-    ((a) > (b)) ? (a) : (b)
+    (((a) > (b)) ? (a) : (b))
 
 #define MAX3(a, b, c)                                                   \
-    (((a) > (b)) ? (((a) > (c)) ? (a) : (c)) : (((b) > (c)) ? (b) : (c)))
+    ((MAX2(a, b) > (c)) ? (MAX2(a, b)) : (c))
 
-// A small enough number.
-#define EPSILON (1e-11)
+
 #endif // HWANGFU_ARITHMETIC_HELPERS
 
 // -------------------------------------------------------------
