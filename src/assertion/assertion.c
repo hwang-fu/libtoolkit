@@ -1,6 +1,6 @@
 #include "assertion.h"
 
-FILE * AssertStream = nil;
+FILE * AssertStream = NIL;
 
 static FILE * get_errorstream_()
 {
