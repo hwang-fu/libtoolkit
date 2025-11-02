@@ -7,6 +7,29 @@
 #include "generic.h"
 #include "crayon.h"
 
+/*——————————————————————————————————————————————————————————————————————————————————————————*/
+/*                                      Assertion Macros                                    */
+/*——————————————————————————————————————————————————————————————————————————————————————————*/
+/**
+ * @since       02.11.2025
+ * @author      Junzhe
+ * @modified    02.11.2025
+ *
+ * @brief       Immediately terminate the program with a fatal message.
+ *              Logs the fatal message (with file and line) using @code {fatal_()}
+ *
+ * @param ...   printf-style format string and optional arguments.
+ */
+#define fatal(...)                                                      \
+    do {                                                                \
+        fatal_(__FILE__, __LINE__, ##__VA_ARGS__);                      \
+    } while (0)
+
+
+
+/*——————————————————————————————————————————————————————————————————————————————————————————*/
+/*                                      Helper Functions                                    */
+/*——————————————————————————————————————————————————————————————————————————————————————————*/
 /**
  * @since       02.11.2025
  * @author      Junzhe
