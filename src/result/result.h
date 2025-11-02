@@ -1,0 +1,102 @@
+#pragma once
+
+#include "generic.h"
+#include "memory.h"
+#include "assertion.h"
+
+typedef enum TResult TResult;
+
+typedef struct Result Result;
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+enum TResult
+{
+    RESULT_SUCCESS,
+    RESULT_FAILURE,
+};
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+struct Result
+{
+    TResult Tag;
+    union
+    {
+        arch Success;
+        arch Failure;
+    };
+    bool IsUnwrapped;
+};
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+OWNED Result * mk_result(TResult tag, arch value);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+OWNED Result * mk_result_success(arch success);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+OWNED Result * mk_result_failure(arch failure);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+arch result_unwrap(BORROWED Result * result);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+arch result_unwrap_else(BORROWED Result * result, arch alternative);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+arch result_unwrap_owned(OWNED Result * result);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+arch result_unwrap_else_owned(OWNED Result * result, arch alternative);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ */
+COPIED void * result_dispose(OWNED void * arg);
