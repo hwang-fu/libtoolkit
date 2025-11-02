@@ -143,6 +143,27 @@
 #define TODO                                                            \
     panic("TODO: %s()", __func__)
 
+
+
+/**
+ * @since       02.11.2025
+ * @author		Junzhe
+ * @modified	02.11.2025
+ *
+ * @brief Assert with a custom formatted message.
+ *
+ * If the expression evaluates to false, aborts with the
+ * user-supplied message (with file and line number).
+ *
+ * @param expr Expression to evaluate.
+ * @param ...  printf-style format string and optional arguments.
+ */
+#define ASSERTF(expr, ...)                                              \
+        do {                                                            \
+            if ( !(expr) )                                              \
+                errorf_(__FILE__, __LINE__, __VA_ARGS__);               \
+        } while (0)
+
 /**
  * @since       02.11.2025
  * @author		Junzhe
@@ -165,6 +186,7 @@
             exit(EXIT_FAILURE);                                         \
         }                                                               \
     } while (0)
+
 
 
 
