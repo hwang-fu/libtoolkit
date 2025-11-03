@@ -198,5 +198,14 @@ bool dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity);
  * @since       03.11.2025
  * @author      Junzhe
  * @modified    03.11.2025
+ *
+ * @brief       If @param {dq} is @const {NIL}, the function also returns @const {True}.
+ */
+bool dq_is_empty(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
  */
 COPIED void * dq_dispose(OWNED void * arg);
