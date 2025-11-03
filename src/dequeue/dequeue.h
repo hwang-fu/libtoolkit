@@ -3,6 +3,10 @@
 #include "hwangfu/generic.h"
 #include "hwangfu/result.h"
 
+#ifndef DEQUEUE_DEFAULT_CAPACITY
+#define DEQUEUE_DEFAULT_CAPACITY (20)
+#endif // DEQUEUE_DEFAULT_CAPACITY
+
 typedef struct Dequeue Dequeue;
 
 struct Dequeue
