@@ -9,7 +9,6 @@
 
 typedef struct Dequeue Dequeue;
 typedef arch (dq_apply_fn) (arch);
-typedef void (dq_foreach_fn) (arch);
 typedef OWNED Result * (dq_iter_fn) (arch);
 
 /**
@@ -202,6 +201,25 @@ bool dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity);
  * @brief       If @param {dq} is @const {NIL}, the function also returns @const {True}.
  */
 bool dq_is_empty(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ * @brief       If @param {dq} is @const {NIL} or @param {idx} is out of range, abort.
+ */
+void dq_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ *
+ * @brief       If @param {dq} is @const {NIL} or @param {idx} is out of range, return @const {False}.
+ */
+bool dq_try_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
+
 
 /**
  * @since       03.11.2025
