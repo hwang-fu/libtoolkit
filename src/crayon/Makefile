@@ -3,7 +3,6 @@ CC 		:= clang
 CFLAGS 	:= -Wall
 CFLAGS 	+= -O2
 CFLAGS 	+= -fPIC
-CFLAGS 	+= -I ../../include
 
 LFLAGS 	:=
 
