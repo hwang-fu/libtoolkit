@@ -8,39 +8,195 @@
 #endif // DEQUEUE_DEFAULT_CAPACITY
 
 typedef struct Dequeue Dequeue;
+typedef arch (dq_apply_fn) (arch);
+typedef void (dq_foreach_fn) (arch);
+typedef OWNED Result * (dq_iter_fn) (arch);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 struct Dequeue
 {
-    u64             Size    ;
-    u64             Capacity;
-    arch       *    Data    ;
-    dispose_fn *    Dispose ;
+    bool            IsInitialized   ;
+    u64             Size            ;
+    u64             Capacity        ;
+    arch       *    Data            ;
+    dispose_fn *    Dispose         ;
 };
 
-void dq_init(BORROWED Dequeue * dq, u64 capacity, dispose_fn * cleanup);
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+OWNED Dequeue * dq_init(OWNED Dequeue * dq, u64 capacity, dispose_fn * cleanup);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Dequeue * mk_dq();
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Dequeue * mk_dq(dispose_fn * cleanup);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Dequeue * mk_dq2(u64 capacity, dispose_fn * cleanup);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 arch dq_at(BORROWED Dequeue * dq, u64 idx);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 void dq_pushfront(BORROWED Dequeue * dq, arch value);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 void dq_pushback(BORROWED Dequeue * dq, arch value);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 arch dq_front(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 arch dq_back(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 arch dq_popfront(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 arch dq_popback(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Result * dq_try_at(BORROWED Dequeue * dq, u64 idx);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 bool dq_try_pushfront(BORROWED Dequeue * dq, arch value);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 bool dq_try_pushback(BORROWED Dequeue * dq, arch value);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Result * dq_try_front(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Result * dq_try_back(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Result * dq_try_popfront(BORROWED Dequeue * dq);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 OWNED Result * dq_try_popback(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+u64 dq_get_size(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+OWNED Result * dq_try_get_size(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+u64 dq_get_capacity(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+OWNED Result * dq_try_get_capacity(BORROWED Dequeue * dq);
 
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+void dq_fit(BORROWED Dequeue * dq, u64 newCapacity);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
+bool dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity);
+
+/**
+ * @since       03.11.2025
+ * @author      Junzhe
+ * @modified    03.11.2025
+ */
 COPIED void * dq_dispose(OWNED void * arg);
