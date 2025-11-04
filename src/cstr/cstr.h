@@ -116,7 +116,7 @@ bool cstr_ends_with(BORROWED const char * s, BORROWED const char * suffix);
  *
  * @brief       If both inputs are of length @const {0}, it also returns @const {True}.
  */
-bool cstr_starts_with_OWNED(BORROWED const char * s, OWNED char * prefix);
+bool cstr_starts_with_owned(BORROWED const char * s, OWNED char * prefix);
 
 /**
  * @since       04.11.2025
@@ -125,7 +125,7 @@ bool cstr_starts_with_OWNED(BORROWED const char * s, OWNED char * prefix);
  *
  * @brief       If both inputs are of length @const {0}, it also returns @const {True}.
  */
-bool cstr_ends_with_OWNED(BORROWED const char * s, OWNED char * suffix);
+bool cstr_ends_with_owned(BORROWED const char * s, OWNED char * suffix);
 
 /**
  * @since       04.11.2025

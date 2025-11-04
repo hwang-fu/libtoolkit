@@ -121,3 +121,16 @@ OWNED char * strdup_safe(BORROWED const char * s)
     }
     return duplicated;
 }
+
+bool cstr_starts_with_ignorecase(BORROWED const char * s, BORROWED const char * prefix)
+{
+}
+
+bool cstr_starts_with(BORROWED const char * s, BORROWED const char * prefix)
+{
+}
+
+bool cstr_ends_with(BORROWED const char * s, BORROWED const char * suffix)
+{
+}
+
