@@ -135,6 +135,27 @@ bool cstr_starts_with_ignorecase(BORROWED const char * s, BORROWED const char * 
     {
         return True;
     }
+
+    if (!s || !prefix)
+    {
+        return False;
+    }
+
+    u64 len1 = strlen_safe(s);
+    u64 len2 = strlen_safe(prefix);
+
+    if (len1 < len2)
+    {
+        return False;
+    }
+
+    // @const {""} is the prefix for any string.
+    if (prefix && EQ(len2, 0))
+    {
+        return True;
+    }
+
+    return strncmp_safe_ignorecase(s, prefix, len2);
 }
 
 bool cstr_starts_with(BORROWED const char * s, BORROWED const char * prefix)
@@ -179,6 +200,27 @@ bool cstr_ends_with_ignorecase(BORROWED const char * s, BORROWED const char * su
     {
         return True;
     }
+
+    if (!s || !suffix)
+    {
+        return False;
+    }
+
+    u64 len1 = strlen_safe(s);
+    u64 len2 = strlen_safe(suffix);
+
+    if (len1 < len2)
+    {
+        return False;
+    }
+
+    // @const {""} is the suffix for any string.
+    if (suffix && EQ(len2, 0))
+    {
+        return True;
+    }
+
+    TODO;
 }
 
 bool cstr_ends_with(BORROWED const char * s, BORROWED const char * suffix)
