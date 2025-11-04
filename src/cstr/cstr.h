@@ -98,6 +98,15 @@ bool cstr_starts_with_ignorecase(BORROWED const char * s, BORROWED const char * 
  *
  * @brief       If both inputs are of length @const {0}, it also returns @const {True}.
  */
+bool cstr_ends_with_ignorecase(BORROWED const char * s, BORROWED const char * suffix);
+
+/**
+ * @since       04.11.2025
+ * @author      Junzhe
+ * @modified    04.11.2025
+ *
+ * @brief       If both inputs are of length @const {0}, it also returns @const {True}.
+ */
 bool cstr_starts_with(BORROWED const char * s, BORROWED const char * prefix);
 
 /**
