@@ -411,10 +411,56 @@ OWNED Result * dq_try_get_capacity(BORROWED Dequeue * dq)
 
 void dq_fit(BORROWED Dequeue * dq, u64 newCapacity)
 {
+    OWNED Result * result = dq_try_fit(dq, newCapacity);
+
+    if (RESULT_GOOD(result))
+    {
+        result_dispose(result);
+        goto dq_fit_exit_;
+    }
+
+    u64 errcode = (u64) result->Failure;
+    result_dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): NIL argument.", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC(
+                "%s(): the old capacity is %lu greater than or equal to the new capacity is %lu.",
+                __func__, dq->Capacity, newCapacity);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error.", __func__);
+        } break;
+    }
+
+dq_fit_exit_:
 }
 
 OWNED Result * dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity)
 {
+    if (!dq)
+    {
+        return RESULT_FAIL(0);
+    }
+
+    u64 oldCapacity = dq->Capacity;
+    if (oldCapacity >= newCapacity)
+    {
+        return RESULT_FAIL(1);
+    }
+
+    dq->Elements = realloc_safe(dq, newCapacity);
+    dq->Capacity = newCapacity;
+
+    return RESULT_SUCCEED(0);
 }
 
 bool dq_is_empty(BORROWED Dequeue * dq)
