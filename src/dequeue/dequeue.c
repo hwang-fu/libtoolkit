@@ -3,16 +3,12 @@
 OWNED Dequeue * dq_init(OWNED Dequeue * dq, u64 capacity, dispose_fn * cleanup)
 {
     SCP(dq);
-    if (dq->IsInitialized)
-    {
-        PANIC("%s(): Dequeue is already initialized.", __func__);
-    }
     if (EQ(capacity, 0))
     {
-        PANIC("%s(): Dequeue initialized capacity is zero..", __func__);
+        WARNINGF("%s(): Dequeue initialized capacity is zero, default to %lu.", __func__, DEQUEUE_DEFAULT_CAPACITY);
+        capacity = DEQUEUE_DEFAULT_CAPACITY;
     }
 
-    dq->IsInitialized = True;
     dq->Capacity      = capacity;
     dq->Size          = 0;
     dq->Data          = NEW(capacity * sizeof(arch));
@@ -23,8 +19,7 @@ OWNED Dequeue * dq_init(OWNED Dequeue * dq, u64 capacity, dispose_fn * cleanup)
 
 OWNED Dequeue * mk_dq()
 {
-    OWNED Dequeue * dq = NEW(sizeof(Dequeue));
-    return dq;
+    return NEW(sizeof(Dequeue));
 }
 
 OWNED Dequeue * mk_dq2(u64 capacity, dispose_fn * cleanup)
@@ -46,8 +41,8 @@ arch dq_at(BORROWED Dequeue * dq, u64 idx)
 void dq_pushfront(BORROWED Dequeue * dq, arch value)
 {
     SCP(dq);
-    OWNED Result * result = dq_try_pushfront(dq, value);
 
+    OWNED Result * result = dq_try_pushfront(dq, value);
     if (EQ(result->Tag, RESULT_FAILURE))
     {
         arch err = result->Failure;

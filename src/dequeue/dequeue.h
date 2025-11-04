@@ -18,11 +18,10 @@ typedef arch (dq_apply_fn) (arch);
 /**
  * @since       03.11.2025
  * @author      Junzhe
- * @modified    03.11.2025
+ * @modified    04.11.2025
  */
 struct Dequeue
 {
-    bool            IsInitialized   ;
     u64             Size            ;
     u64             Capacity        ;
     arch       *    Data            ;
@@ -32,7 +31,7 @@ struct Dequeue
 /**
  * @since       03.11.2025
  * @author      Junzhe
- * @modified    03.11.2025
+ * @modified    04.11.2025
  */
 OWNED Dequeue * dq_init(OWNED Dequeue * dq, u64 capacity, dispose_fn * cleanup);
 
