@@ -79,7 +79,7 @@ bool strncmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2,
  * @return OWNED pointer to a heap-allocated copy of the string.
  *         Guaranteed non-{NIL} and safe to pass to @func {free}.
  */
-OWNED char * strdup_safe(BORROWED const char * s)
+OWNED char * strdup_safe(BORROWED const char * s);
 
 /**
  * @since       04.11.2025

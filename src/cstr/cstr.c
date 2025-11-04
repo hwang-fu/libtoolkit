@@ -107,3 +107,7 @@ bool strncmp_safe(BORROWED const char * s1, BORROWED const char * s2, u64 length
     return EQ(0, strncmp(s1, s2, length));
 #endif // CSTR_IGNORE_CASE
 }
+
+OWNED char * strdup_safe(BORROWED const char * s)
+{
+}
