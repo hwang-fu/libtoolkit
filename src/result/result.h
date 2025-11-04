@@ -10,16 +10,19 @@ typedef struct Result Result;
 
 typedef void result_callback_fn(arch);
 
+#define RESULT_GOOD(result)         ((result)->Tag)
+#define RESULT_NOT_GOOD(result)     ((result)->Tag)
+
 /**
  * @since       03.11.2025
  * @author      Junzhe
- * @modified	04.11.2025
+ * @modified	03.11.2025
  *
  */
 enum TResult
 {
-    RESULT_SUCCESS,
-    RESULT_FAILURE,
+    RESULT_FAILURE = 0,
+    RESULT_SUCCESS = 1,
 };
 
 /**
