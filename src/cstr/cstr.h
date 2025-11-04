@@ -11,7 +11,7 @@
  * @author      Junzhe
  * @modified    04.11.2025
  *
- * @brief Returns @const {0} if @param {s} is @const {NIL}
+ * @brief       Returns @const {0} if @param {s} is @const {NIL}
  */
 u64 strlen_safe(BORROWED const char * s);
 
@@ -20,7 +20,7 @@ u64 strlen_safe(BORROWED const char * s);
  * @author      Junzhe
  * @modified    04.11.2025
  *
- * @brief Safely compares two C strings.
+ * @brief       Safely compares two C strings.
  *
  * Performs a {NIL}-safe comparison between @param s1 and @param {s2}.
  * - Returns @const {True} if both strings have the length @const {0} via @func {strlen_safe}.
@@ -41,6 +41,7 @@ bool strcmp_safe(BORROWED const char * s1, BORROWED const char * s2);
  * @author      Junzhe
  * @modified    04.11.2025
  *
+ * @brief       If @param {length} is @const {0}, the function always returns @const {True}.
  */
 bool strncmp_safe(BORROWED const char * s1, BORROWED const char * s2, u64 length);
 
@@ -49,7 +50,7 @@ bool strncmp_safe(BORROWED const char * s1, BORROWED const char * s2, u64 length
  * @author      Junzhe
  * @modified    04.11.2025
  *
- * @brief Compares two C strings ignoring case. Other from that, similar to @func {strcmp_safe}.
+ * @brief       Compares two C strings ignoring case. Other from that, similar to @func {strcmp_safe}.
  */
 bool strcmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2);
 
@@ -58,6 +59,7 @@ bool strcmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2);
  * @author      Junzhe
  * @modified    04.11.2025
  *
+ * @brief       If @param {length} is @const {0}, the function always returns @const {True}.
  */
 bool strncmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2, u64 length);
 
@@ -66,7 +68,7 @@ bool strncmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2,
  * @author      Junzhe
  * @modified    04.11.2025
  *
- * @brief Safely duplicates a C string.
+ * @brief       Safely duplicates a C string.
  *
  * Creates a dynamically allocated duplicate of @param {s}.
  * - If @param s is @const {NIL}, returns a newly allocated empty string @const {""}.

@@ -10,6 +10,34 @@ u64 strlen_safe(BORROWED const char * s)
     return (u64) strlen(s);
 }
 
+bool strncmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2, u64 length)
+{
+    /// 1. if length is @const {0}, no need to compare.
+    if (EQ(length, 0))
+    {
+        return True;
+    }
+
+    /// 2. if points to the same memory / both @const {NIL}, definitely same.
+    if (s1 == s2)
+    {
+        return True;
+    }
+
+    /// 3. if only one string is @const {NIL}, definitely not same.
+    if (!s1 || !s2)
+    {
+        return False;
+    }
+
+    while (*s1 && *s2 && EQ(cto_english_lowerletter(*s1), cto_english_lowerletter(*s2)))
+    {
+        INC(s1);
+        INC(s2);
+    }
+    return EQ(cto_english_lowerletter(*s1), cto_english_lowerletter(*s2));
+}
+
 bool strcmp_safe_ignorecase(BORROWED const char * s1, BORROWED const char * s2)
 {
     /// 1. if points to the same memory / both @const {NIL}, definitely same.
