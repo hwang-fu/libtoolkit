@@ -114,7 +114,10 @@ OWNED char * strdup_safe(BORROWED const char * s)
     {
         s = "";
     }
-    OWNED char * duplicate = strdup(s);
-    SCP(duplicate);
-    return duplicate;
+    OWNED char * duplicated = strdup(s);
+    if (!duplicated)
+    {
+        PANIC("Error @%s(): failed to duplicate string \"%s\"", __func__, s);
+    }
+    return duplicated;
 }
