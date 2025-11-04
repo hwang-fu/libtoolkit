@@ -38,16 +38,68 @@ arch dq_at(BORROWED Dequeue * dq, u64 idx)
     return dq->Elements[idx];
 }
 
-void dq_pushfront(BORROWED Dequeue * dq, arch value)
+void dq_pushfront(BORROWED Dequeue * dq, arch data)
 {
-    SCP(dq);
+    OWNED Result * result = dq_try_pushfront(dq, data);
+    if (RESULT_GOOD(result))
+    {
+        result_dispose(result);
+        goto dq_pushfront_exit_;
+    }
 
-    OWNED Result * result = dq_try_pushfront(dq, value);
+    u64 errcode = (u64) result->Failure;
+    result_dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): NIL argument.", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): failed to grow the capacity.", __func__);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error.", __func__);
+        } break;
+    }
+
+dq_pushfront_exit_:
 }
 
-void dq_pushback(BORROWED Dequeue * dq, arch value)
+void dq_pushback(BORROWED Dequeue * dq, arch data)
 {
-    SCP(dq);
+    OWNED Result * result = dq_try_pushback(dq, data);
+    if (RESULT_GOOD(result))
+    {
+        result_dispose(result);
+        goto dq_pushback_exit_;
+    }
+
+    u64 errcode = (u64) result->Failure;
+    result_dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): NIL argument.", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): failed to grow the capacity.", __func__);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error.", __func__);
+        } break;
+    }
+
+dq_pushback_exit_:
 }
 
 arch dq_front(BORROWED Dequeue * dq)
@@ -85,7 +137,7 @@ OWNED Result * dq_try_at(BORROWED Dequeue * dq, u64 idx)
     return mk_result(RESULT_SUCCESS, dq->Elements[idx]);
 }
 
-OWNED Result * dq_try_pushfront(BORROWED Dequeue * dq, arch value)
+OWNED Result * dq_try_pushfront(BORROWED Dequeue * dq, arch data)
 {
     if (!dq)
     {
@@ -109,17 +161,37 @@ OWNED Result * dq_try_pushfront(BORROWED Dequeue * dq, arch value)
     }
 
     memmove(dq->Elements + 1, dq->Elements + 0, dq->Size++ * sizeof(arch));
-    dq->Elements[0] = value;
+    dq->Elements[0] = data;
 
     return RESULT_SUCCEED(0);
 }
 
-OWNED Result * dq_try_pushback(BORROWED Dequeue * dq, arch value)
+OWNED Result * dq_try_pushback(BORROWED Dequeue * dq, arch data)
 {
     if (!dq)
     {
-        return False;
+        return RESULT_FAIL(0);
     }
+
+    u64 capacity = dq->Capacity;
+    u64 size     = dq->Size;
+    if (WATERMARK(size, capacity) >= WATERMARK_HIGH)
+    {
+        do
+        {
+            capacity += 1;
+            capacity *= 2;
+        } while (WATERMARK(size, capacity) >= WATERMARK_LOW);
+
+        if (!dq_try_fit(dq, capacity))
+        {
+            return RESULT_FAIL(1);
+        }
+    }
+
+    dq->Elements[dq->Size++] = data;
+
+    return RESULT_SUCCEED(0);
 }
 
 OWNED Result * dq_try_front(BORROWED Dequeue * dq)

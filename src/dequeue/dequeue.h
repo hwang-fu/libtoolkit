@@ -61,14 +61,14 @@ arch dq_at(BORROWED Dequeue * dq, u64 idx);
  * @author      Junzhe
  * @modified    03.11.2025
  */
-void dq_pushfront(BORROWED Dequeue * dq, arch value);
+void dq_pushfront(BORROWED Dequeue * dq, arch data);
 
 /**
  * @since       03.11.2025
  * @author      Junzhe
  * @modified    03.11.2025
  */
-void dq_pushback(BORROWED Dequeue * dq, arch value);
+void dq_pushback(BORROWED Dequeue * dq, arch data);
 
 /**
  * @since       03.11.2025
@@ -110,14 +110,14 @@ OWNED Result * dq_try_at(BORROWED Dequeue * dq, u64 idx);
  * @author      Junzhe
  * @modified    03.11.2025
  */
-OWNED Result * dq_try_pushfront(BORROWED Dequeue * dq, arch value);
+OWNED Result * dq_try_pushfront(BORROWED Dequeue * dq, arch data);
 
 /**
  * @since       03.11.2025
  * @author      Junzhe
  * @modified    03.11.2025
  */
-OWNED Result * dq_try_pushback(BORROWED Dequeue * dq, arch value);
+OWNED Result * dq_try_pushback(BORROWED Dequeue * dq, arch data);
 
 /**
  * @since       03.11.2025
