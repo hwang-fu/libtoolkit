@@ -204,7 +204,8 @@ bool dq_is_empty(BORROWED Dequeue * dq);
  * @modified    04.11.2025
  *
  * @brief       Apply function @param {apply} to the given element.
- *              If @param {dq} is @const {NIL} or @param {idx} is out of range, abort.
+ *              If @param {dq} is @const {NIL} or @param {apply} is @const {NIL}
+ *              or @param {idx} is out of range, abort.
  */
 void dq_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
 
@@ -214,9 +215,9 @@ void dq_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
  * @modified    04.11.2025
  *
  * @brief       Apply function @param {apply} to the given element.
- *              If @param {dq} is @const {NIL} or @param {idx} is out of range, return @const {False}.
+ *              Returns error code on error.
  */
-bool dq_try_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
+OWNED Result * dq_try_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply);
 
 /**
  * @since       03.11.2025

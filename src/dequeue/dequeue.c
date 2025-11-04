@@ -477,7 +477,7 @@ void dq_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply)
 {
 }
 
-bool dq_try_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply)
+OWNED Result * dq_try_apply_at(BORROWED Dequeue * dq, u64 idx, dq_apply_fn * apply)
 {
 }
 
