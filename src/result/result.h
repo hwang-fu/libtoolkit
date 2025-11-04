@@ -13,6 +13,9 @@ typedef void result_callback_fn(arch);
 #define RESULT_GOOD(result)         ((result)->Tag)
 #define RESULT_NOT_GOOD(result)     ((result)->Tag)
 
+#define RESULT_SUCCEED(value)       (mk_result_success((value)))
+#define RESULT_FAIL(value)          (mk_result_failure((value)))
+
 /**
  * @since       03.11.2025
  * @author      Junzhe
