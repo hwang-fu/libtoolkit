@@ -187,7 +187,7 @@ void dq_fit(BORROWED Dequeue * dq, u64 newCapacity);
  * @author      Junzhe
  * @modified    03.11.2025
  */
-bool dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity);
+OWNED Result * dq_try_fit(BORROWED Dequeue * dq, u64 newCapacity);
 
 /**
  * @since       03.11.2025
