@@ -8,6 +8,8 @@ typedef enum TResult TResult;
 
 typedef struct Result Result;
 
+typedef void result_callback_fn(arch);
+
 /**
  * @since       03.11.2025
  * @author      Junzhe
@@ -65,14 +67,20 @@ OWNED Result * mk_result_failure(arch failure);
  * @author      Junzhe
  * @modified	04.11.2025
  *
+ * @brief       Unwraps the given @param {result} (Does not automatically dispose it).
+ *              If the given @param {result} is not a success, it will invoke the
+ *              @param {onerr} with the @field {Result.Failure}. If @param {onerr}
+ *              is @const {NIL}, it will by default abort the program with error code.
  */
-arch result_unwrap(BORROWED Result * result);
+arch result_unwrap(BORROWED Result * result, result_callback_fn * onerr);
 
 /**
  * @since       03.11.2025
  * @author      Junzhe
  * @modified	04.11.2025
  *
+ * @brief       Unwraps the given @param {result} (Does not automatically dispose it).
+ *              If the given @param {result} is not a success, it will return the @param {alternative}.
  */
 arch result_unwrap_else(BORROWED Result * result, arch alternative);
 
@@ -81,14 +89,20 @@ arch result_unwrap_else(BORROWED Result * result, arch alternative);
  * @author      Junzhe
  * @modified	04.11.2025
  *
+ * @brief       Unwraps the given result (Automatically dispose it).
+ *              If the given @param {result} is not a success, it will invoke the
+ *              @param {onerr} with the @field {Result.Failure}. If @param {onerr}
+ *              is @const {NIL}, it will by default abort the program with error code.
  */
-arch result_unwrap_owned(OWNED Result * result);
+arch result_unwrap_owned(OWNED Result * result, result_callback_fn * onerr);
 
 /**
  * @since       03.11.2025
  * @author      Junzhe
  * @modified	04.11.2025
  *
+ * @brief       Unwraps the given @param {result} (Automatically dispose it).
+ *              If the given @param {result} is not a success, it will return the @param {alternative}.
  */
 arch result_unwrap_else_owned(OWNED Result * result, arch alternative);
 
