@@ -110,4 +110,11 @@ bool strncmp_safe(BORROWED const char * s1, BORROWED const char * s2, u64 length
 
 OWNED char * strdup_safe(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        s = "";
+    }
+    OWNED char * duplicate = strdup(s);
+    SCP(duplicate);
+    return duplicate;
 }

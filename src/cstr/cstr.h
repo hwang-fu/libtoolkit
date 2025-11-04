@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "hwangfu/generic.h"
+#include "hwangfu/assertion.h"
 #include "hwangfu/result.h"
 
 
