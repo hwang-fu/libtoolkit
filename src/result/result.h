@@ -8,7 +8,7 @@ typedef enum TResult TResult;
 
 typedef struct Result Result;
 
-typedef void result_callback_fn(arch);
+typedef arch result_callback_fn(arch);
 
 #define RESULT_GOOD(result)         ((result)->Tag)
 #define RESULT_NOT_GOOD(result)     ((result)->Tag)

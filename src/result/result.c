@@ -60,7 +60,7 @@ arch result_unwrap(BORROWED Result * result, result_callback_fn * onerr)
             {
                 PANIC("%s(): Result is failed with error code %lu", __func__, result->Failure);
             }
-            onerr(result->Failure);
+            return onerr(result->Failure);
         } break;
 
         default:
@@ -109,7 +109,7 @@ arch result_unwrap_owned(OWNED Result * result, result_callback_fn * onerr)
             {
                 PANIC("%s(): Result is failed with error code %lu", __func__, result->Failure);
             }
-            onerr(result->Failure);
+            value = onerr(result->Failure);
         } break;
 
         default:
