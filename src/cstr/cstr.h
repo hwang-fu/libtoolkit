@@ -366,3 +366,19 @@ bool sis_decimal_integer(BORROWED const char * s);
  * @brief       This function does not care whether a "0x" or "0X" prefix is present or not.
  */
 bool sis_hexadecimal_integer(BORROWED const char * s);
+
+/**
+ * @since       05.11.2025
+ * @author      Junzhe
+ * @modified    05.11.2025
+ *
+ */
+OWNED char * strrev_safe(BORROWED const char * s);
+
+/**
+ * @since       05.11.2025
+ * @author      Junzhe
+ * @modified    05.11.2025
+ *
+ */
+OWNED char * strrev_safe_owned(OWNED char * s);

@@ -595,3 +595,31 @@ bool sis_hexadecimal_integer(BORROWED const char * s)
 
     return EQ(*s, '\0');
 }
+
+OWNED char * strrev_safe(BORROWED const char * s)
+{
+    return strrev_safe_owned(strdup_safe(s));
+}
+
+OWNED char * strrev_safe_owned(OWNED char * s)
+{
+    if (EQ(s, NIL))
+    {
+        return strdup_safe("");
+    }
+
+    u64 len = strlen_safe(s);
+    if (EQ(len, 0))
+    {
+        return s;
+    }
+
+    for (u64 i = 0; i < len/2; i++)
+    {
+        char temp = s[i];
+        s[i] = s[len - 1 - i];
+        s[len - 1 - i] = temp;
+    }
+
+    return s;
+}
