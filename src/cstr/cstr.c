@@ -440,7 +440,7 @@ char cto_english_lowerletter(const char c)
     return c;
 }
 
-OWNED Result * mk_u64_from_cstring(OWNED char * s)
+OWNED Result * mk_u64_from_cstring(BORROWED const char * s)
 {
 }
 
