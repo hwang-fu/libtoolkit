@@ -10,7 +10,7 @@
 /**
  * @since       04.11.2025
  * @author      Junzhe
- * @modified    04.11.2025
+ * @modified    05.11.2025
  *
  * @brief       Returns @const {0} if @param {s} is @const {NIL}
  */
