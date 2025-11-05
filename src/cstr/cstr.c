@@ -314,3 +314,51 @@ OWNED char * mk_cstr_with_owned_suffix(BORROWED const char * s, OWNED char * suf
     XFREE(suffix);
     return theString;
 }
+
+OWNED char * mk_cstr_tolower_owned(OWNED char * s)
+{
+    OWNED char * theString = mk_cstr_tolower(s);
+    XFREE(s);
+    return theString;
+}
+
+OWNED char * mk_cstr_tolower(BORROWED const char * s)
+{
+    u64 len = strlen_safe(s);
+    if (EQ(len, 0))
+    {
+        return strdup_safe(s);
+    }
+
+    OWNED char * theString = NEW((len + 1) * sizeof(char));
+    for (u64 i = 0; i < len; i++)
+    {
+        theString[i] = cto_english_lowerletter(s[i]);
+    }
+    theString[len] = '\0';
+    return theString;
+}
+
+OWNED char * mk_cstr_toupper_owned(OWNED char * s)
+{
+    OWNED char * theString = mk_cstr_toupper(s);
+    XFREE(s);
+    return theString;
+}
+
+OWNED char * mk_cstr_toupper(BORROWED const char * s)
+{
+    u64 len = strlen_safe(s);
+    if (EQ(len, 0))
+    {
+        return strdup_safe(s);
+    }
+
+    OWNED char * theString = NEW((len + 1) * sizeof(char));
+    for (u64 i = 0; i < len; i++)
+    {
+        theString[i] = cto_english_upperletter(s[i]);
+    }
+    theString[len] = '\0';
+    return theString;
+}
