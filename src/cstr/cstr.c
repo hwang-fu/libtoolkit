@@ -403,8 +403,8 @@ bool cis_odigit(const char c)
 bool cis_xdigit(const char c)
 {
     return cis_digit(c)
-        || ('a' <= c) && (c <= 'f')
-        || ('A' <= c) && (c <= 'F');
+        || (('a' <= c) && (c <= 'f'))
+        || (('A' <= c) && (c <= 'F'));
 }
 
 bool cis_english_upperletter(const char c)
