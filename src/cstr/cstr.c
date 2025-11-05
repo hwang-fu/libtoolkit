@@ -362,3 +362,10 @@ OWNED char * mk_cstr_toupper(BORROWED const char * s)
     theString[len] = '\0';
     return theString;
 }
+
+OWNED char * mk_cstr_from_char(const char c)
+{
+    char buffer[2] = { 0 };
+    buffer[0] = c;
+    return strdup_safe(buffer);
+}
