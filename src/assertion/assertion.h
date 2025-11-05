@@ -113,7 +113,7 @@
 /**
  * @since       02.11.2025
  * @author		Junzhe
- * @modified    02.11.2025
+ * @modified    05.11.2025
  *
  * @brief   Print a trace message with file and line automatically filled.
  *
@@ -124,7 +124,7 @@
  * @param fmt printf-style format string.
  * @param ... optional arguments for the format string.
  */
-#define tracef(fmt, ...)                                                \
+#define TRACEF(fmt, ...)                                                \
     tracef_(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
 
 
@@ -132,7 +132,7 @@
 /**
  * @since       02.11.2025
  * @author      Junzhe
- * @modified    02.11.2025
+ * @modified    05.11.2025
  *
  * @brief      Marks unimplemented functions.
  *
@@ -143,7 +143,7 @@
  * @note The program will exit immediately when this macro is reached.
  */
 #define TODO                                                            \
-    panic("TODO: %s()", __func__)
+    PANIC("TODO: %s()", __func__)
 
 
 

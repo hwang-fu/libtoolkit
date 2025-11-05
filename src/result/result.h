@@ -13,8 +13,8 @@ typedef arch result_callback_fn(arch);
 #define RESULT_GOOD(result)         ((result)->Tag)
 #define RESULT_NOT_GOOD(result)     ((result)->Tag)
 
-#define RESULT_SUCCEED(value)       (mk_result_success((value)))
-#define RESULT_FAIL(value)          (mk_result_failure((value)))
+#define RESULT_SUCCEED(value)       (mk_result_success(CAST((value), arch)))
+#define RESULT_FAIL(value)          (mk_result_failure(CAST((value), arch)))
 
 /**
  * @since       03.11.2025
