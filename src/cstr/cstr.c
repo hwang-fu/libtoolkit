@@ -403,12 +403,94 @@ char cto_english_lowerletter(const char c)
     return c;
 }
 
-OWNED Result * mk_u64_from_cstring(BORROWED const char * s)
+OWNED Result * sto_integer(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        return RESULT_FAIL(0);
+    }
+
+    if (EQ(s[0], '\0'))
+    {
+        return RESULT_FAIL(1);
+    }
+
+    u64 value = 0;
+    if (sis_binary_integer(s))
+    {
+        if (EQ(s[0], '0'))
+        {
+            INC(s);
+            INC(s);
+        }
+        while (*s)
+        {
+            value *= 2;
+            value += (*s - '0');
+            INC(s);
+        }
+    }
+    else if (sis_octal_integer(s))
+    {
+        if (EQ(s[0], '0'))
+        {
+            INC(s);
+            INC(s);
+        }
+        while (*s)
+        {
+            value *= 8;
+            value += (*s - '0');
+            INC(s);
+        }
+    }
+    else if (sis_decimal_integer(s))
+    {
+        while (*s)
+        {
+            value *= 10;
+            value += (*s - '0');
+            INC(s);
+        }
+    }
+    else if (sis_hexadecimal_integer(s))
+    {
+        if (EQ(s[0], '0'))
+        {
+            INC(s);
+            INC(s);
+        }
+        while (*s)
+        {
+            value *= 16;
+            char c = *s;
+            if ('a' <= c && c <= 'f')
+            {
+                value += (c - 'a' + 10);
+            }
+            else if ('A' <= c && c <= 'F')
+            {
+                value += (c - 'A' + 10);
+            }
+            else
+            {
+                value += (c - '0');
+            }
+            INC(s);
+        }
+    }
+    else
+    {
+        return RESULT_FAIL(2);
+    }
+    return RESULT_SUCCEED(value);
 }
 
-OWNED Result * mk_u64_from_owned_cstring(OWNED char * s)
+OWNED Result * sto_integer_owned(OWNED char * s)
 {
+    OWNED Result * result = sto_integer(s);
+    XFREE(s);
+    return result;
 }
 
 bool sis_integer(BORROWED const char * s)

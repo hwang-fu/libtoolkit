@@ -307,20 +307,20 @@ char cto_english_upperletter(const char c);
 char cto_english_lowerletter(const char c);
 
 /**
- * @since       04.11.2025
+ * @since       05.11.2025
  * @author      Junzhe
- * @modified    04.11.2025
+ * @modified    05.11.2025
  *
  */
-OWNED Result * mk_u64_from_cstring(BORROWED const char * s);
+OWNED Result * sto_integer(BORROWED const char * s);
 
 /**
- * @since       04.11.2025
+ * @since       05.11.2025
  * @author      Junzhe
- * @modified    04.11.2025
+ * @modified    05.11.2025
  *
  */
-OWNED Result * mk_u64_from_owned_cstring(OWNED char * s);
+OWNED Result * sto_integer_owned(OWNED char * s);
 
 /**
  * @since       04.11.2025
