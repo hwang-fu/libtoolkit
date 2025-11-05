@@ -312,7 +312,7 @@ char cto_english_lowerletter(const char c);
  * @modified    04.11.2025
  *
  */
-OWNED Result * mk_u64_from_cstr(BORROWED const char * s);
+OWNED Result * mk_u64_from_cstring(BORROWED const char * s);
 
 /**
  * @since       04.11.2025
@@ -320,7 +320,7 @@ OWNED Result * mk_u64_from_cstr(BORROWED const char * s);
  * @modified    04.11.2025
  *
  */
-OWNED Result * mk_u64_from_owned_cstr(OWNED char * s);
+OWNED Result * mk_u64_from_owned_cstring(OWNED char * s);
 
 /**
  * @since       04.11.2025

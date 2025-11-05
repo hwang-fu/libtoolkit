@@ -384,3 +384,73 @@ OWNED char * mk_cstr_from_owned_buffer(OWNED u8 * buffer, const u64 size)
     XFREE(buffer);
     return theString;
 }
+
+bool cis_digit(const char c)
+{
+    return ('0' <= c) && (c <= '9');
+}
+
+bool cis_bdigit(const char c)
+{
+    return EQ(c, '0') || EQ(c, '1');
+}
+
+bool cis_odigit(const char c)
+{
+    return ('0' <= c) && (c <= '7');
+}
+
+bool cis_xdigit(const char c)
+{
+    return cis_digit(c)
+        || ('a' <= c) && (c <= 'f')
+        || ('A' <= c) && (c <= 'F');
+}
+
+bool cis_english_upperletter(const char c)
+{
+}
+
+bool cis_english_lowerletter(const char c)
+{
+}
+
+bool cis_english_letter(const char c)
+{
+}
+
+char cto_english_upperletter(const char c)
+{
+}
+
+char cto_english_lowerletter(const char c)
+{
+}
+
+OWNED Result * mk_u64_from_cstring(OWNED char * s)
+{
+}
+
+OWNED Result * mk_u64_from_owned_cstring(OWNED char * s)
+{
+}
+
+bool sis_integer(BORROWED const char * s)
+{
+}
+
+bool sis_binary_integer(BORROWED const char * s)
+{
+}
+
+bool sis_octal_integer(BORROWED const char * s)
+{
+}
+
+bool sis_decimal_integer(BORROWED const char * s)
+{
+}
+
+bool sis_hexadecimal_integer(BORROWED const char * s)
+{
+}
