@@ -292,3 +292,11 @@ OWNED char * mk_cstr(BORROWED const char * s1, BORROWED const char * s2)
 
     return s;
 }
+
+OWNED char * mk_cstr_owned(OWNED char * s1, OWNED char * s2)
+{
+    OWNED char * s = mk_cstr(s1, s2);
+    XFREE(s1);
+    XFREE(s2);
+    return s;
+}
