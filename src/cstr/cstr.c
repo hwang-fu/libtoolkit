@@ -409,14 +409,17 @@ bool cis_xdigit(const char c)
 
 bool cis_english_upperletter(const char c)
 {
+    return ('A' <= c) && (c <= 'Z');
 }
 
 bool cis_english_lowerletter(const char c)
 {
+    return ('a' <= c) && (c <= 'z');
 }
 
 bool cis_english_letter(const char c)
 {
+    return cis_english_upperletter(c) || cis_english_lowerletter(c);
 }
 
 char cto_english_upperletter(const char c)
