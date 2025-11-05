@@ -295,8 +295,22 @@ OWNED char * mk_cstr(BORROWED const char * s1, BORROWED const char * s2)
 
 OWNED char * mk_cstr_owned(OWNED char * s1, OWNED char * s2)
 {
-    OWNED char * s = mk_cstr(s1, s2);
+    OWNED char * theString = mk_cstr(s1, s2);
     XFREE(s1);
     XFREE(s2);
-    return s;
+    return theString;
+}
+
+OWNED char * mk_cstr_with_owned_prefix(BORROWED const char * s, OWNED char * prefix)
+{
+    OWNED char * theString = mk_cstr(s, prefix);
+    XFREE(prefix);
+    return theString;
+}
+
+OWNED char * mk_cstr_with_owned_suffix(BORROWED const char * s, OWNED char * suffix)
+{
+    OWNED char * theString = mk_cstr(s, suffix);
+    XFREE(suffix);
+    return theString;
 }
