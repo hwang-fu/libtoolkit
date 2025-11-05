@@ -455,16 +455,98 @@ bool sis_integer(BORROWED const char * s)
 
 bool sis_binary_integer(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        return False;
+    }
+
+    if (cstr_starts_with(s, "0b") || cstr_starts_with("0B"))
+    {
+        INC(s);
+        INC(s);
+    }
+
+    if (EQ(*s, '\0'))
+    {
+        return False;
+    }
+
+    while (cis_bdigit(*s))
+    {
+        INC(s);
+    }
+
+    return EQ(*s, '\0');
 }
 
 bool sis_octal_integer(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        return False;
+    }
+
+    if (cstr_starts_with(s, "0o") || cstr_starts_with("0O"))
+    {
+        INC(s);
+        INC(s);
+    }
+
+    if (EQ(*s, '\0'))
+    {
+        return False;
+    }
+
+    while (cis_odigit(*s))
+    {
+        INC(s);
+    }
+
+    return EQ(*s, '\0');
 }
 
 bool sis_decimal_integer(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        return False;
+    }
+
+    if (EQ(*s, '\0'))
+    {
+        return False;
+    }
+
+    while (cis_digit(*s))
+    {
+        INC(s);
+    }
+
+    return EQ(*s, '\0');
 }
 
 bool sis_hexadecimal_integer(BORROWED const char * s)
 {
+    if (EQ(s, NIL))
+    {
+        return False;
+    }
+
+    if (cstr_starts_with(s, "0x") || cstr_starts_with("0X"))
+    {
+        INC(s);
+        INC(s);
+    }
+
+    if (EQ(*s, '\0'))
+    {
+        return False;
+    }
+
+    while (cis_xdigit(*s))
+    {
+        INC(s);
+    }
+
+    return EQ(*s, '\0');
 }
