@@ -145,15 +145,9 @@ OWNED Result * hm_try_get(BORROWED Hashmap * hm, BORROWED const char * key)
 
 OWNED Result * hm_try_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
 {
-    if (!hm)
-    {
-        return RESULT_FAIL(0);
-    }
-
-    if (!key)
-    {
-        return RESULT_FAIL(1);
-    }
+    OWNED Result * result = hm_try_get(hm, key);
+    XFREE(key);
+    return result;
 }
 
 OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arch val)
@@ -171,15 +165,9 @@ OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arc
 
 OWNED Result * _hm_try_ins_owned_key(BORROWED Hashmap * hm, OWNED char * key, arch val)
 {
-    if (!hm)
-    {
-        return RESULT_FAIL(0);
-    }
-
-    if (!key)
-    {
-        return RESULT_FAIL(1);
-    }
+    OWNED Result * result = hm_try_ins(hm, key, val);
+    XFREE(key);
+    return result;
 }
 
 OWNED Result * hm_try_del(BORROWED Hashmap * hm, BORROWED const char * key)
@@ -197,15 +185,9 @@ OWNED Result * hm_try_del(BORROWED Hashmap * hm, BORROWED const char * key)
 
 OWNED Result * hm_try_del_owned_key(BORROWED Hashmap * hm, OWNED char * key)
 {
-    if (!hm)
-    {
-        return RESULT_FAIL(0);
-    }
-
-    if (!key)
-    {
-        return RESULT_FAIL(1);
-    }
+    OWNED Result * result = hm_try_del(hm, key);
+    XFREE(key);
+    return result;
 }
 
 u64 hm_get_size(BORROWED Hashmap * hm)
