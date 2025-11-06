@@ -13,6 +13,17 @@ struct HashmapEntry
     OWNED HashmapEntry * Next;
 };
 
+static u64 fnv1a_hash_(BORROWED const char * key);
+static u64 fnv1a_hash_(BORROWED const char * key)
+{
+    u64 hash = 14695981039346656037UL;              // FNV offset basis
+    for (; *key; ) {
+        hash ^= (u64)(*key++);
+        hash *= 1099511628211UL;                    // FNV prime
+    }
+    return hash;
+}
+
 OWNED Hashmap * hm_init(OWNED Hashmap * hm, u64 capacity, dispose_fn * cleanup)
 {
 }
