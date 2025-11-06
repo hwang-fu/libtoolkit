@@ -76,4 +76,26 @@
         dq_dispose(dq);
         pass(cases++);
     }
+
+    {
+        Dequeue * dq = mk_dq(2, dispose);
+        dq_pushback(dq, strdup_safe("A"));
+        dq_pushback(dq, strdup_safe("B"));
+        dq_pushback(dq, strdup_safe("C"));
+        dq_pushback(dq, strdup_safe("D"));
+        dq_dispose(dq);
+
+        pass(cases++);
+    }
+
+    {
+        Dequeue * dq = mk_dq(3, 10, dispose);
+        dq_pushback(dq, strdup_safe("A"));
+        dq_pushback(dq, strdup_safe("B"));
+        dq_pushback(dq, strdup_safe("C"));
+        dq_pushback(dq, strdup_safe("D"));
+        dq_dispose(dq);
+
+        pass(cases++);
+    }
 }
