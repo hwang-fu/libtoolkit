@@ -14,8 +14,11 @@ struct HashmapEntry
 };
 
 static u64 fnv1a_hash_(BORROWED const char * key);
-static COPIED void * hme_dispose(OWNED void * arg, dispose_fn * cleanup);
-static COPIED void * hme_dispose_recursive(OWNED void * arg, dispose_fn * cleanup);
+static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity);
+static void hm_ins_helper_(BORROWED HashmapEntry ** buckets, u64 idx, OWNED HashmapEntry * entry);
+static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity);
+static COPIED void * hme_dispose_(OWNED void * arg, dispose_fn * cleanup);
+static COPIED void * hme_dispose_recursive_(OWNED void * arg, dispose_fn * cleanup);
 
 static u64 fnv1a_hash_(BORROWED const char * key)
 {
@@ -105,6 +108,33 @@ OWNED Hashmap * mk_hm(int mode, ...)
 
     va_end(ap);
     return hm_init(NIL, capacity, cleanup);
+}
+
+static void hm_ins_helper_(BORROWED HashmapEntry ** buckets, u64 idx, OWNED HashmapEntry * entry)
+{
+    if (!buckets)
+    {
+        PANIC("%s(): ", __func__);
+    }
+
+    if (!entry)
+    {
+        PANIC("%s(): ", __func__);
+    }
+
+    if (!buckets[idx])
+    {
+        buckets[idx] = entry;
+    }
+    else
+    {
+        BORROWED HashmapEntry * tail = buckets[idx];
+        while (tail->Next)
+        {
+            tail = tail->Next;
+        }
+        tail->Next = entry;
+    }
 }
 
 void _hm_ins(BORROWED Hashmap * hm, BORROWED const char * key, arch val)
@@ -274,11 +304,6 @@ OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arc
     {
         return RESULT_FAIL(2);
     }
-
-    if (EQ(hm->Size, 0))
-    {
-        return RESULT_FAIL(3);
-    }
 }
 
 OWNED Result * _hm_try_ins_owned_key(BORROWED Hashmap * hm, OWNED char * key, arch val)
@@ -309,6 +334,10 @@ OWNED Result * hm_try_del(BORROWED Hashmap * hm, BORROWED const char * key)
     {
         return RESULT_FAIL(3);
     }
+
+    u64 h        = fnv1a_hash_(key);
+    u64 capacity = hm->Capacity;
+    u64 idx      = h % capacity;
 }
 
 OWNED Result * hm_try_del_owned_key(BORROWED Hashmap * hm, OWNED char * key)
@@ -380,7 +409,78 @@ OWNED Result * hm_try_get_size(BORROWED Hashmap * hm)
     return RESULT_SUCCEED(hm->Size);
 }
 
-static COPIED void * hme_dispose(OWNED void * arg, dispose_fn * cleanup)
+static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
+{
+    OWNED Result * result = hm_try_fit_(hm, newCapacity);
+    if (RESULT_GOOD(result))
+    {
+        dispose(result);
+        return;
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): hm argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC(
+                    "%s(): old capacity " CRAYON_TO_BOLD("%lu") " is greater than or equal to the new capacity " CRAYON_TO_BOLD("%lu") ".", __func__,
+                    hm->Capacity,
+                    newCapacity);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
+}
+
+static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
+{
+    if (!hm)
+    {
+        return RESULT_FAIL(0);
+    }
+
+    u64 oldCapacity = hm->Capacity;
+    if (oldCapacity >= newCapacity)
+    {
+        return RESULT_FAIL(1);
+    }
+
+    OWNED HashmapEntry ** newBuckets = ZEROS(newCapacity * sizeof(HashmapEntry*));
+    OWNED HashmapEntry ** oldBuckets = hm->Buckets;
+
+    for (u64 i = 0; i < oldCapacity; i++)
+    {
+        HashmapEntry * bucket = oldBuckets[i];
+        while (bucket)
+        {
+            OWNED HashmapEntry * entry = bucket;
+            bucket                     = bucket->Next;
+            entry->Next                = NIL;
+
+            u64 idx = fnv1a_hash_(entry->Key) % newCapacity;
+
+            hm_ins_helper_(newBuckets, idx, entry);
+        }
+    }
+
+    XFREE(oldBuckets);
+    hm->Buckets  = newBuckets;
+    hm->Capacity = newCapacity;
+
+    return RESULT_SUCCEED(0);
+}
+
+static COPIED void * hme_dispose_(OWNED void * arg, dispose_fn * cleanup)
 {
     if (!arg)
     {
@@ -398,7 +498,7 @@ static COPIED void * hme_dispose(OWNED void * arg, dispose_fn * cleanup)
     return dispose(hme);
 }
 
-static COPIED void * hme_dispose_recursive(OWNED void * arg, dispose_fn * cleanup)
+static COPIED void * hme_dispose_recursive_(OWNED void * arg, dispose_fn * cleanup)
 {
     if (!arg)
     {
@@ -409,7 +509,7 @@ static COPIED void * hme_dispose_recursive(OWNED void * arg, dispose_fn * cleanu
 
     while (hme->Next)
     {
-        hme_dispose_recursive(hme->Next, cleanup);
+        hme_dispose_recursive_(hme->Next, cleanup);
     }
 
     XFREE(hme->Key);
@@ -434,7 +534,7 @@ COPIED void * hm_dispose(OWNED void * arg)
     dispose_fn * cleanup  = hm->Dispose;
     for (uint64_t i = 0; i < capacity; i++)
     {
-        hme_dispose_recursive(hm->Buckets[i], cleanup);
+        hme_dispose_recursive_(hm->Buckets[i], cleanup);
     }
     XFREE(hm->Buckets);
 
