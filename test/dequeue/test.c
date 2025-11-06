@@ -43,4 +43,37 @@
         dq_dispose(dq);
         pass(cases++);
     }
+
+    {
+        Dequeue * dq = mk_dq(0);
+        dq_pushback(dq, 1);
+        dq_pushback(dq, 2);
+        dq_pushback(dq, 3);
+        dq_pushback(dq, 4);
+        dq_pushback(dq, 5);
+
+        ASSERT_EXPR(EQ(
+                    dq_popfront(dq),
+                    1
+        ));
+        ASSERT_EXPR(EQ(
+                    dq_popfront(dq),
+                    2
+        ));
+        ASSERT_EXPR(EQ(
+                    dq_popfront(dq),
+                    3
+        ));
+        ASSERT_EXPR(EQ(
+                    dq_popfront(dq),
+                    4
+        ));
+        ASSERT_EXPR(EQ(
+                    dq_popfront(dq),
+                    5
+        ));
+
+        dq_dispose(dq);
+        pass(cases++);
+    }
 }
