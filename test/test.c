@@ -3,10 +3,11 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-#include "hwangfu/generic.h"
-#include "hwangfu/assertion.h"
-#include "hwangfu/cstr.h"
-#include "hwangfu/dequeue.h"
+#include <hwangfu/generic.h>
+#include <hwangfu/assertion.h>
+#include <hwangfu/cstr.h>
+#include <hwangfu/dequeue.h>
+#include <hwangfu/hashmap.h>
 
 static void pass(u64 nr)
 {
@@ -24,6 +25,7 @@ int main()
     fprintf(COUT, "=============== Testing Start ===============\n");
 #include "./s/test.c"
 #include "./dq/test.c"
+#include "./hm/test.c"
     fprintf(COUT, "=============== Testing End ===============\n");
     return 0;
 }
