@@ -3,8 +3,10 @@
 #include <stdarg.h>
 
 #include <hwangfu/generic.h>
-#include <hwangfu/result.h>
+#include <hwangfu/crayon.h>
 #include <hwangfu/assertion.h>
+#include <hwangfu/cstr.h>
+#include <hwangfu/result.h>
 
 #ifndef HASHMAP_DEFAULT_CAPACITY
 #define HASHMAP_DEFAULT_CAPACITY (20)

@@ -116,10 +116,91 @@ void _hm_ins_owned_key(BORROWED Hashmap * hm, OWNED char * key, arch val)
 
 arch hm_get(BORROWED Hashmap * hm, BORROWED const char * key)
 {
+    OWNED Result * result = hm_try_get(hm, key);
+    if (RESULT_GOOD(result))
+    {
+        return result_unwrap(result, NIL);
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): hm argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 2:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("\"\"") ".", __func__);
+        } break;
+
+        case 3:
+        {
+            PANIC("%s(): hm size is " CRAYON_TO_BOLD("0") ".", __func__);
+        } break;
+
+        case 4:
+        {
+            PANIC("%s(): Key " CRAYON_TO_BOLD("\"%s\"") " does not exist.", __func__, key);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
 }
 
 arch hm_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
 {
+    OWNED Result * result = hm_try_get(hm, key);
+    if (RESULT_GOOD(result))
+    {
+        XFREE(key);
+        return result_unwrap(result, NIL);
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): hm argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 2:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("\"\"") ".", __func__);
+        } break;
+
+        case 3:
+        {
+            PANIC("%s(): hm size is " CRAYON_TO_BOLD("0") ".", __func__);
+        } break;
+
+        case 4:
+        {
+            PANIC("%s(): Key " CRAYON_TO_BOLD("\"%s\"") " does not exist.", __func__, key);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
 }
 
 void hm_del(BORROWED Hashmap * hm, BORROWED const char * key)
@@ -141,6 +222,32 @@ OWNED Result * hm_try_get(BORROWED Hashmap * hm, BORROWED const char * key)
     {
         return RESULT_FAIL(1);
     }
+
+    if (EQ(strlen_safe(key), 0))
+    {
+        return RESULT_FAIL(2);
+    }
+
+    if (EQ(hm->Size, 0))
+    {
+        return RESULT_FAIL(3);
+    }
+
+    u64 h        = fnv1a_hash_(key);
+    u64 capacity = hm->Capacity;
+    u64 idx      = h % capacity;
+
+    BORROWED HashmapEntry * bucket = hm->Buckets[idx];
+    while (bucket)
+    {
+        if (strcmp_safe(key, bucket->Key))
+        {
+            return RESULT_SUCCEED(bucket->Val);
+        }
+        bucket = bucket->Next;
+    }
+
+    return RESULT_FAIL(4);
 }
 
 OWNED Result * hm_try_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
@@ -180,6 +287,11 @@ OWNED Result * hm_try_del(BORROWED Hashmap * hm, BORROWED const char * key)
     if (!key)
     {
         return RESULT_FAIL(1);
+    }
+
+    if (EQ(hm->Size, 0))
+    {
+        return RESULT_FAIL(2);
     }
 }
 
