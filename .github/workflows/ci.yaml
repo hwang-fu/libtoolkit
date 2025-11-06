@@ -35,7 +35,7 @@ jobs:
           source ~/.bashrc
 
       - name: Build
-        run: make -j
+        run: make
 
       - name: Test
         run: make test
