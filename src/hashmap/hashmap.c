@@ -20,7 +20,7 @@ static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity);
 
 static void hm_ins_helper_(BORROWED HashmapEntry ** buckets, u64 idx, OWNED HashmapEntry * entry);
 
-static void mk_hme_(BORROWED char * key, arch val);
+static OWNED HashmapEntry * mk_hme_(BORROWED char * key, arch val);
 static COPIED void * hme_dispose_(OWNED void * arg, dispose_fn * cleanup);
 static COPIED void * hme_dispose_recursive_(OWNED void * arg, dispose_fn * cleanup);
 
@@ -74,7 +74,7 @@ OWNED Hashmap * mk_hm(int mode, ...)
     va_list ap;
     va_start(ap, mode);
 
-    u64          capacity = DEQUEUE_DEFAULT_CAPACITY;
+    u64          capacity = HASHMAP_DEFAULT_CAPACITY;
     dispose_fn * cleanup  = NIL;
     switch (mode)
     {
@@ -268,7 +268,7 @@ arch hm_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
 void hm_del(BORROWED Hashmap * hm, BORROWED const char * key)
 {
 
-    OWNED Result * result = _hm_try_del(hm, key, val);
+    OWNED Result * result = hm_try_del(hm, key);
     if (RESULT_GOOD(result))
     {
         dispose(result);
@@ -602,7 +602,7 @@ static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
     return RESULT_SUCCEED(0);
 }
 
-static void mk_hme_(BORROWED char * key, arch val)
+static OWNED HashmapEntry * mk_hme_(BORROWED char * key, arch val)
 {
     OWNED HashmapEntry * hme = NEW(sizeof(HashmapEntry));
     hme->Key                 = strdup_safe(key);
@@ -623,7 +623,7 @@ static COPIED void * hme_dispose_(OWNED void * arg, dispose_fn * cleanup)
     XFREE(hme->Key);
     if (cleanup)
     {
-        cleanup(hme->Val);
+        cleanup(CAST(hme->Val, void*));
     }
 
     return dispose(hme);
@@ -646,7 +646,7 @@ static COPIED void * hme_dispose_recursive_(OWNED void * arg, dispose_fn * clean
     XFREE(hme->Key);
     if (cleanup)
     {
-        cleanup(hme->Val);
+        cleanup(CAST(hme->Val, void*));
     }
 
     return dispose(hme);
