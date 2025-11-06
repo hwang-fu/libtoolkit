@@ -15,6 +15,7 @@ struct HashmapEntry
 
 static u64 fnv1a_hash_(BORROWED const char * key);
 static COPIED void * hme_dispose(OWNED void * arg, dispose_fn * cleanup);
+static COPIED void * hme_dispose_recursive(OWNED void * arg, dispose_fn * cleanup);
 
 static u64 fnv1a_hash_(BORROWED const char * key)
 {
@@ -268,6 +269,16 @@ OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arc
     {
         return RESULT_FAIL(1);
     }
+
+    if (EQ(strlen_safe(key), 0))
+    {
+        return RESULT_FAIL(2);
+    }
+
+    if (EQ(hm->Size, 0))
+    {
+        return RESULT_FAIL(3);
+    }
 }
 
 OWNED Result * _hm_try_ins_owned_key(BORROWED Hashmap * hm, OWNED char * key, arch val)
@@ -289,9 +300,14 @@ OWNED Result * hm_try_del(BORROWED Hashmap * hm, BORROWED const char * key)
         return RESULT_FAIL(1);
     }
 
-    if (EQ(hm->Size, 0))
+    if (EQ(strlen_safe(key), 0))
     {
         return RESULT_FAIL(2);
+    }
+
+    if (EQ(hm->Size, 0))
+    {
+        return RESULT_FAIL(3);
     }
 }
 
@@ -373,9 +389,27 @@ static COPIED void * hme_dispose(OWNED void * arg, dispose_fn * cleanup)
 
     OWNED HashmapEntry * hme = CAST(arg, HashmapEntry*);
 
+    XFREE(hme->Key);
+    if (cleanup)
+    {
+        cleanup(hme->Val);
+    }
+
+    return dispose(hme);
+}
+
+static COPIED void * hme_dispose_recursive(OWNED void * arg, dispose_fn * cleanup)
+{
+    if (!arg)
+    {
+        return NIL;
+    }
+
+    OWNED HashmapEntry * hme = CAST(arg, HashmapEntry*);
+
     while (hme->Next)
     {
-        hme_dispose(hme->Next, cleanup);
+        hme_dispose_recursive(hme->Next, cleanup);
     }
 
     XFREE(hme->Key);
@@ -400,7 +434,7 @@ COPIED void * hm_dispose(OWNED void * arg)
     dispose_fn * cleanup  = hm->Dispose;
     for (uint64_t i = 0; i < capacity; i++)
     {
-        hme_dispose(hm->Buckets[i], cleanup);
+        hme_dispose_recursive(hm->Buckets[i], cleanup);
     }
     XFREE(hm->Buckets);
 
