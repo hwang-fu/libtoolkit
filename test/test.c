@@ -21,8 +21,8 @@ static void fail(u64 nr)
 int main()
 {
     fprintf(COUT, "=============== Testing Start ===============\n");
-#include "./cstr/test.c"
-#include "./dequeue/test.c"
+#include "./s/test.c"
+#include "./dq/test.c"
     fprintf(COUT, "=============== Testing End ===============\n");
     return 0;
 }
