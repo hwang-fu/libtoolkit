@@ -14,3 +14,6 @@ build:
 
 clean:
 	rm -rf ${HWANGFU}/*
+
+test:
+	./script/test.sh
