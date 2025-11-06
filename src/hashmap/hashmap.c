@@ -26,6 +26,30 @@ static u64 fnv1a_hash_(BORROWED const char * key)
 
 OWNED Hashmap * hm_init(OWNED Hashmap * hm, u64 capacity, dispose_fn * cleanup)
 {
+    if (!hm)
+    {
+        hm = NEW(sizeof(Hashmap));
+        WARNINGF(
+                "%s(): allocating default memory space for hashmpa initialization.",
+                __func__,
+                HASHMAP_DEFAULT_CAPACITY);
+    }
+
+    if (EQ(capacity, 0))
+    {
+        capacity = HASHMAP_DEFAULT_CAPACITY;
+        WARNINGF(
+                "%s(): hashmap initialized capacity is zero, default to %lu.",
+                __func__,
+                HASHMAP_DEFAULT_CAPACITY);
+    }
+
+    hm->Capacity = capacity;
+    hm->Size     = 0UL;
+    hm->Buckets  = ZEROS(capacity * sizeof(HashmapEntry*));
+    hm->Dispose  = cleanup;
+
+    return hm;
 }
 
 OWNED Hashmap * mk_hm(int mode, ...)
