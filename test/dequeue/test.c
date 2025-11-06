@@ -89,13 +89,28 @@
     }
 
     {
-        Dequeue * dq = mk_dq(3, 10, dispose);
+        Dequeue * dq = mk_dq(3, 0, dispose);
         dq_pushback(dq, strdup_safe("A"));
         dq_pushback(dq, strdup_safe("B"));
         dq_pushback(dq, strdup_safe("C"));
         dq_pushback(dq, strdup_safe("D"));
-        dq_dispose(dq);
 
+        dq_dispose(dq);
+        pass(cases++);
+    }
+
+    {
+        Dequeue * dq = mk_dq(3, 2, dispose);
+        dq_pushback(dq, strdup_safe("A"));
+        dq_pushback(dq, strdup_safe("B"));
+        dq_pushback(dq, strdup_safe("C"));
+        dq_pushback(dq, strdup_safe("D"));
+        dq_pushback(dq, strdup_safe("a"));
+        dq_pushback(dq, strdup_safe("b"));
+        dq_pushback(dq, strdup_safe("c"));
+        dq_pushback(dq, strdup_safe("d"));
+
+        dq_dispose(dq);
         pass(cases++);
     }
 }
