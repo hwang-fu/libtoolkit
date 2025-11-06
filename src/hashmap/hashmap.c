@@ -267,6 +267,48 @@ arch hm_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
 
 void hm_del(BORROWED Hashmap * hm, BORROWED const char * key)
 {
+
+    OWNED Result * result = _hm_try_del(hm, key, val);
+    if (RESULT_GOOD(result))
+    {
+        dispose(result);
+        return;
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): hm argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        case 2:
+        {
+            PANIC("%s(): key is " CRAYON_TO_BOLD("\"\"") ".", __func__);
+        } break;
+
+        case 3:
+        {
+            PANIC("%s(): hm size is " CRAYON_TO_BOLD("0") ".", __func__);
+        } break;
+
+        case 4:
+        {
+            PANIC("%s(): Key " CRAYON_TO_BOLD("\"%s\"") " does not exist.", __func__, key);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
 }
 
 void hm_del_owned_key(BORROWED Hashmap * hm, OWNED char * key)
