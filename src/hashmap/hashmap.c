@@ -159,6 +159,11 @@ void _hm_ins(BORROWED Hashmap * hm, BORROWED const char * key, arch val)
             PANIC("%s(): failed to fit the capacity.", __func__);
         } break;
 
+        case 4:
+        {
+            PANIC("%s(): Key " CRAYON_TO_BOLD("\"%s\"") " already exists.", __func__, key);
+        } break;
+
         default:
         {
             PANIC("%s(): Unknown error code %lu.", __func__, errcode);
@@ -394,6 +399,21 @@ OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arc
 
     u64 h   = fnv1a_hash_(key);
     u64 idx = h % capacity;
+
+    // Making sure that there is no duplicate key.
+    if (hm->Buckets[idx])
+    {
+        BORROWED HashmapEntry * bucket = hm->Buckets[idx];
+        while (bucket)
+        {
+            if (strcmp_safe(key, bucket->Key))
+            {
+                return RESULT_FAIL(4);
+            }
+            bucket = bucket->Next;
+        }
+    }
+
     hm_ins_helper_(hm->Buckets, idx, mk_hme_(key, val));
 
     hm->Size += 1;
