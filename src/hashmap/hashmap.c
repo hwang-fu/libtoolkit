@@ -39,10 +39,6 @@ OWNED Hashmap * hm_init(OWNED Hashmap * hm, u64 capacity, dispose_fn * cleanup)
     if (!hm)
     {
         hm = NEW(sizeof(Hashmap));
-        WARNINGF(
-                "%s(): allocating default memory space for hashmpa initialization.",
-                __func__,
-                HASHMAP_DEFAULT_CAPACITY);
     }
 
     if (EQ(capacity, 0))
