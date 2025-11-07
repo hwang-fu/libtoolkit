@@ -1,7 +1,34 @@
 {
+    printf("Testing module " CRAYON_TO_BOLD(CRAYON_TO_YELLOW("dq")) "...\n");
+
+    u64 cases = 1;
+
     {
+        OWNED Hashmap * hm = mk_hm(0);
+        hm_dispose(hm);
+        pass(cases++);
     }
 
     {
+        OWNED Hashmap * hm = mk_hm(0);
+
+        ASSERT_EXPR(EQ(hm_get_capacity(hm), HASHMAP_DEFAULT_CAPACITY));
+
+        hm_ins(hm, "one", -1);
+        hm_ins(hm, "two", -2);
+        hm_ins(hm, "three", -3);
+        hm_ins(hm, "four", -4);
+        hm_ins(hm, "five", -5);
+
+        ASSERT_EXPR(EQ(hm_get_size(hm), 5));
+
+        ASSERT_EQ((i64)hm_get(hm, "one"), -1);
+        ASSERT_EQ((i64)hm_get(hm, "two"), -2);
+        ASSERT_EQ((i64)hm_get(hm, "three"), -3);
+        ASSERT_EQ((i64)hm_get(hm, "four"), -4);
+        ASSERT_EQ((i64)hm_get(hm, "five"), -5);
+
+        hm_dispose(hm);
+        pass(cases++);
     }
 }
