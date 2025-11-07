@@ -187,6 +187,22 @@ u64 hm_get_size(BORROWED Hashmap * hm);
 OWNED Result * hm_try_get_size(BORROWED Hashmap * hm);
 
 /**
+ * @since       07.11.2025
+ * @author      Junzhe
+ * @modified    07.11.2025
+ *
+ */
+u64 hm_get_capacity(BORROWED Hashmap * hm);
+
+/**
+ * @since       07.11.2025
+ * @author      Junzhe
+ * @modified    07.11.2025
+ *
+ */
+OWNED Result * hm_try_get_capacity(BORROWED Hashmap * hm);
+
+/**
  * @since       06.11.2025
  * @author      Junzhe
  * @modified    06.11.2025

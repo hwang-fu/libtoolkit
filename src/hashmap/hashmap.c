@@ -527,6 +527,40 @@ OWNED Result * hm_try_get_size(BORROWED Hashmap * hm)
     return RESULT_SUCCEED(hm->Size);
 }
 
+u64 hm_get_capacity(BORROWED Hashmap * hm)
+{
+    OWNED Result * result = hm_try_get_capacity(hm);
+    if (RESULT_GOOD(result))
+    {
+        return result_unwrap_owned(result, NIL);
+    }
+
+    u64 errcode = (u64) result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): NIL hm argument.", __func__);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error.", __func__);
+        } break;
+    }
+}
+
+OWNED Result * hm_try_get_capacity(BORROWED Hashmap * hm)
+{
+    if (!hm)
+    {
+        return RESULT_FAIL(0);
+    }
+
+    return RESULT_SUCCEED(hm->Capacity);
+}
+
 static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
 {
     OWNED Result * result = hm_try_fit_(hm, newCapacity);
