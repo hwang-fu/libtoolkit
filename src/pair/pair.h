@@ -68,5 +68,21 @@ arch pair_snd(BORROWED Pair * pair);
  * @modified    07.11.2025
  *
  */
+OWNED Result * pair_try_fst(BORROWED Pair * pair);
+
+/**
+ * @since       07.11.2025
+ * @author      Junzhe
+ * @modified    07.11.2025
+ *
+ */
+OWNED Result * pair_try_snd(BORROWED Pair * pair);
+
+/**
+ * @since       07.11.2025
+ * @author      Junzhe
+ * @modified    07.11.2025
+ *
+ */
 COPIED void * pair_dispose(OWNED void * arg);
 
