@@ -76,18 +76,68 @@ OWNED Pair * mk_pair(int mode, ...)
 
 arch pair_fst(BORROWED Pair * pair)
 {
+    OWNED Result * result = pair_try_fst(pair);
+    if (RESULT_GOOD(result))
+    {
+        return result_unwrap_owned(result, NIL);
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): pair argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
 }
 
 arch pair_snd(BORROWED Pair * pair)
 {
+    OWNED Result * result = pair_try_snd(pair);
+    if (RESULT_GOOD(result))
+    {
+        return result_unwrap_owned(result, NIL);
+    }
+
+    u64 errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): pair argument is " CRAYON_TO_BOLD("NIL") ".", __func__);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %lu.", __func__, errcode);
+        } break;
+    }
 }
 
 OWNED Result * pair_try_fst(BORROWED Pair * pair)
 {
+    if (!pair)
+    {
+        return RESULT_FAIL(0);
+    }
+    return RESULT_SUCCEED(pair->First);
 }
 
 OWNED Result * pair_try_snd(BORROWED Pair * pair)
 {
+    if (!pair)
+    {
+        return RESULT_FAIL(0);
+    }
+    return RESULT_SUCCEED(pair->Second);
 }
 
 COPIED void * pair_dispose(OWNED void * arg)
