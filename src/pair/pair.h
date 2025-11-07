@@ -5,6 +5,7 @@
 #include <hwangfu/generic.h>
 #include <hwangfu/assertion.h>
 #include <hwangfu/result.h>
+#include <hwangfu/memory.h>
 
 typedef struct Pair Pair;
 
