@@ -15,12 +15,9 @@ struct HashmapEntry
 
 static u64 fnv1a_hash_(BORROWED const char * key);
 
-static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity);
-static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity);
-
 static void hm_ins_helper_(BORROWED HashmapEntry ** buckets, u64 idx, OWNED HashmapEntry * entry);
 
-static OWNED HashmapEntry * mk_hme_(BORROWED char * key, arch val);
+static OWNED HashmapEntry * mk_hme_(BORROWED const char * key, arch val);
 static COPIED void * hme_dispose_(OWNED void * arg, dispose_fn * cleanup);
 static COPIED void * hme_dispose_recursive_(OWNED void * arg, dispose_fn * cleanup);
 
@@ -60,10 +57,11 @@ OWNED Hashmap * hm_init(OWNED Hashmap * hm, u64 capacity, dispose_fn * cleanup)
 
 /*
  * Possible overloads:
- * @li OWNED Dequeue * mk_hm(1, u64 capacity)
- * @li OWNED Dequeue * mk_hm(2, dispose_fn * cleanup)
- * @li OWNED Dequeue * mk_hm(3, u64 capacity, dispose_fn * cleanup)
- * @li OWNED Dequeue * mk_hm(4, dispose_fn * cleanup, u64 capacity)
+ * @li OWNED Hashmap * mk_hm(0);
+ * @li OWNED Hashmap * mk_hm(1, u64 capacity)
+ * @li OWNED Hashmap * mk_hm(2, dispose_fn * cleanup)
+ * @li OWNED Hashmap * mk_hm(3, u64 capacity, dispose_fn * cleanup)
+ * @li OWNED Hashmap * mk_hm(4, dispose_fn * cleanup, u64 capacity)
  */
 OWNED Hashmap * mk_hm(int mode, ...)
 {
@@ -182,7 +180,7 @@ arch hm_get(BORROWED Hashmap * hm, BORROWED const char * key)
     OWNED Result * result = hm_try_get(hm, key);
     if (RESULT_GOOD(result))
     {
-        return result_unwrap(result, NIL);
+        return result_unwrap_owned(result, NIL);
     }
 
     u64 errcode = result->Failure;
@@ -227,7 +225,7 @@ arch hm_get_owned_key(BORROWED Hashmap * hm, OWNED char * key)
     if (RESULT_GOOD(result))
     {
         XFREE(key);
-        return result_unwrap(result, NIL);
+        return result_unwrap_owned(result, NIL);
     }
 
     u64 errcode = result->Failure;
@@ -391,7 +389,7 @@ OWNED Result * _hm_try_ins(BORROWED Hashmap * hm, BORROWED const char * key, arc
             capacity *= 2;
         } while (WATERMARK(size, capacity) >= WATERMARK_LOW);
 
-        if (!hm_try_fit_(hm, capacity))
+        if (!hm_try_fit(hm, capacity))
         {
             return RESULT_FAIL(3);
         }
@@ -581,9 +579,9 @@ OWNED Result * hm_try_get_capacity(BORROWED Hashmap * hm)
     return RESULT_SUCCEED(hm->Capacity);
 }
 
-static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
+void hm_fit(BORROWED Hashmap * hm, const u64 newCapacity)
 {
-    OWNED Result * result = hm_try_fit_(hm, newCapacity);
+    OWNED Result * result = hm_try_fit(hm, newCapacity);
     if (RESULT_GOOD(result))
     {
         dispose(result);
@@ -614,7 +612,7 @@ static void hm_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
     }
 }
 
-static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
+OWNED Result * hm_try_fit(BORROWED Hashmap * hm, const u64 newCapacity)
 {
     if (!hm)
     {
@@ -652,7 +650,7 @@ static OWNED Result * hm_try_fit_(BORROWED Hashmap * hm, const u64 newCapacity)
     return RESULT_SUCCEED(0);
 }
 
-static OWNED HashmapEntry * mk_hme_(BORROWED char * key, arch val)
+static OWNED HashmapEntry * mk_hme_(BORROWED const char * key, arch val)
 {
     OWNED HashmapEntry * hme = NEW(sizeof(HashmapEntry));
     hme->Key                 = strdup_safe(key);
