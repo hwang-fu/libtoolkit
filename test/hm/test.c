@@ -1,5 +1,5 @@
 {
-    printf("Testing module " CRAYON_TO_BOLD(CRAYON_TO_YELLOW("dq")) "...\n");
+    printf("Testing module " CRAYON_TO_BOLD(CRAYON_TO_YELLOW("hm")) "...\n");
 
     u64 cases = 1;
 
