@@ -50,6 +50,7 @@ OWNED Hashmap * hm_init(OWNED Hashmap * hm, u64 capacity, dispose_fn * cleanup);
  * @brief       Customize a @struct {Hashmap}.
  *
  * Possible overloads:
+ * @li OWNED Dequeue * mk_hm(0)
  * @li OWNED Dequeue * mk_hm(1, u64 capacity)
  * @li OWNED Dequeue * mk_hm(2, dispose_fn * cleanup)
  * @li OWNED Dequeue * mk_hm(3, u64 capacity, dispose_fn * cleanup)
