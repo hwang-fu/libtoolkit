@@ -144,6 +144,26 @@ typedef void* (handler_fn) (void*);
 #define ROUNDUP(n, d)                                               \
         (((n) + (d) - 1) / (d))
 
+/**
+ * ROUNDDOWN(n, d):
+ *      1. Round `n` down to the nearest multiple of `d`.
+ *
+ * ROUNDDOWN(10, 3) == 9
+ */
+#define ROUNDDOWN(n, d)                                             \
+        ((n) / (d) * (d))
+
+/**
+ * ROUND(n, d):
+ *      Round `n` to the nearest multiple of `d`.
+ *
+ * ROUND(10,3) == 9
+ * ROUND(11,3) == 12
+ * ROUND(13,3) == 12
+ */
+#define ROUND(n, d)                                                 \
+        ((((n) + (d) / 2) / (d)) * (d))
+
 // A small enough number.
 #define EPSILON (1e-11)
 
