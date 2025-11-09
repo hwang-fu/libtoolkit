@@ -17,8 +17,16 @@
     }
 
     {
+        OWNED char * s = strdup_safe("i have a dream");
+        ASSERT_EXPR(cstr_starts_with(s, "i"));
+        dispose(s);
+        pass(cases++);
     }
 
     {
+        OWNED char * s = strdup_safe("i have dream");
+        ASSERT_EXPR(cstr_ends_with(s, "dream"));
+        dispose(s);
+        pass(cases++);
     }
 }
