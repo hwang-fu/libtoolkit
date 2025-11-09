@@ -403,7 +403,7 @@ char cto_english_lowerletter(const char c)
     return c;
 }
 
-OWNED Result * sto_integer(BORROWED const char * s)
+OWNED Result * sto_try_integer(BORROWED const char * s)
 {
     if (EQ(s, NIL))
     {
@@ -486,11 +486,52 @@ OWNED Result * sto_integer(BORROWED const char * s)
     return RESULT_SUCCEED(value);
 }
 
-OWNED Result * sto_integer_owned(OWNED char * s)
+OWNED Result * sto_try_integer_owned(OWNED char * s)
 {
-    OWNED Result * result = sto_integer(s);
+    OWNED Result * result = sto_try_integer(s);
     XFREE(s);
     return result;
+}
+
+u64 sto_integer(BORROWED const char * s)
+{
+    OWNED Result * result = sto_try_integer(s);
+    if (RESULT_GOOD(result))
+    {
+        return result_unwrap_owned(result, NIL);
+    }
+
+    arch errcode = result->Failure;
+    dispose(result);
+    switch (errcode)
+    {
+        case 0:
+        {
+            PANIC("%s(): s is NIL.", __func__);
+        } break;
+
+        case 1:
+        {
+            PANIC("%s(): s is \"\"", __func__);
+        } break;
+
+        case 2:
+        {
+            PANIC("%s(): s \"%s\" is not a valid integer string.", __func__, s);
+        } break;
+
+        default:
+        {
+            PANIC("%s(): Unknown error code %d.", __func__, errcode);
+        } break;
+    }
+}
+
+u64 sto_integer_owned(OWNED char * s)
+{
+    u64 integer = sto_integer(s);
+    XFREE(s);
+    return integer;
 }
 
 bool sis_integer(BORROWED const char * s)
