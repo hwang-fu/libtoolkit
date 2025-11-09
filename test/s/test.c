@@ -76,4 +76,10 @@
         pass(cases++);
     }
 
+    {
+        ASSERT_EXPR(cstr_starts_with("good morning", "good"));
+        ASSERT_EXPR(cstr_starts_with_ignorecase("good morning", "GoOD"));
+        pass(cases++);
+    }
+
 }
