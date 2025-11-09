@@ -29,4 +29,40 @@
         dispose(s);
         pass(cases++);
     }
+
+    {
+        OWNED char * s = strdup_safe("xxx yyy zzz");
+        ASSERT_EXPR(EQ(strlen_safe(s), 11));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = strdup_safe(NIL);
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = strdup_safe("");
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = strdup_safe("once upon a time...");
+        ASSERT_EXPR(EQ(strlen_safe(s), 19));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr("xxx", "yyy");
+        ASSERT_EXPR(EQ(strlen_safe(s), 6));
+        ASSERT_EXPR(strcmp_safe(s, "xxxyyy"));
+        dispose(s);
+        pass(cases++);
+    }
 }
