@@ -139,4 +139,10 @@
         pass(cases++);
     }
 
+    {
+        ASSERT_EXPR(sis_integer("123"));
+        dispose(s);
+        pass(cases++);
+    }
+
 }
