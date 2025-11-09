@@ -59,14 +59,6 @@
     }
 
     {
-        OWNED char * s = mk_cstr("xxx", "yyy");
-        ASSERT_EXPR(EQ(strlen_safe(s), 6));
-        ASSERT_EXPR(strcmp_safe(s, "xxxyyy"));
-        dispose(s);
-        pass(cases++);
-    }
-
-    {
         ASSERT_EXPR(!strcmp_safe("ABC", "abc"));
         pass(cases++);
     }
@@ -85,6 +77,46 @@
     {
         ASSERT_EXPR(cstr_ends_with("good morning", "morning"));
         ASSERT_EXPR(cstr_ends_with_ignorecase("good morning", "MornInG"));
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr("xxx", "yyy");
+        ASSERT_EXPR(EQ(strlen_safe(s), 6));
+        ASSERT_EXPR(strcmp_safe(s, "xxxyyy"));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr("", "");
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        ASSERT_EXPR(strcmp_safe(s, ""));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr("", NIL);
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        ASSERT_EXPR(strcmp_safe(s, ""));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr(NIL, "");
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        ASSERT_EXPR(strcmp_safe(s, ""));
+        dispose(s);
+        pass(cases++);
+    }
+
+    {
+        OWNED char * s = mk_cstr(NIL, NIL);
+        ASSERT_EXPR(EQ(strlen_safe(s), 0));
+        ASSERT_EXPR(strcmp_safe(s, ""));
+        dispose(s);
         pass(cases++);
     }
 
