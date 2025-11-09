@@ -46,6 +46,8 @@ OWNED bool * SieveEratosthenes(u64 upto)
     {
         isPrime[i] = True;
     }
+    if (upto >= 0) isPrime[0] = False;
+    if (upto >= 1) isPrime[1] = False;
 
     for (u64 p = 2; p * p <= upto; p++)
     {
