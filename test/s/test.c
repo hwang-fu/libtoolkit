@@ -141,7 +141,10 @@
 
     {
         ASSERT_EXPR(sis_integer("123"));
-        dispose(s);
+        ASSERT_EXPR(sis_integer("0xffdd1234"));
+        ASSERT_EXPR(sis_integer("0o7701"));
+        ASSERT_EXPR(sis_integer("0b11110000"));
+        ASSERT_EXPR(sis_integer("0"));
         pass(cases++);
     }
 
