@@ -148,4 +148,11 @@
         pass(cases++);
     }
 
+    {
+        OWNED char * s = strrev_safe("morning");
+        ASSERT_EXPR(strcmp_safe(s, "gninrom"));
+        dispose(s);
+        pass(cases++);
+    }
+
 }
