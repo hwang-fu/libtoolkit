@@ -1,3 +1,3 @@
-# Tool Chain in C
+# Tool Kit in C
 
-A tool chain I wrote for easing the C programming.
+A tool kit I wrote for easing the C programming.

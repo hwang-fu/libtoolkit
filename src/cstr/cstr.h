@@ -309,18 +309,34 @@ char cto_english_lowerletter(const char c);
 /**
  * @since       05.11.2025
  * @author      Junzhe
- * @modified    05.11.2025
+ * @modified    09.11.2025
  *
  */
-OWNED Result * sto_integer(BORROWED const char * s);
+OWNED Result * sto_try_integer(BORROWED const char * s);
 
 /**
  * @since       05.11.2025
  * @author      Junzhe
- * @modified    05.11.2025
+ * @modified    09.11.2025
  *
  */
-OWNED Result * sto_integer_owned(OWNED char * s);
+OWNED Result * sto_try_integer_owned(OWNED char * s);
+
+/**
+ * @since       09.11.2025
+ * @author      Junzhe
+ * @modified    09.11.2025
+ *
+ */
+u64 sto_integer(BORROWED const char * s);
+
+/**
+ * @since       09.11.2025
+ * @author      Junzhe
+ * @modified    09.11.2025
+ *
+ */
+u64 sto_integer_owned(OWNED char * s);
 
 /**
  * @since       04.11.2025
