@@ -132,4 +132,11 @@
         pass(cases++);
     }
 
+    {
+        OWNED char * s = mk_cstr_from_char('X');
+        ASSERT_EXPR(strcmp_safe(s, "X"));
+        dispose(s);
+        pass(cases++);
+    }
+
 }
