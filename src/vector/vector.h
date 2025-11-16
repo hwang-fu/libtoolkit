@@ -24,3 +24,22 @@ struct Vector
     OWNED VectorItem ** Items;
 };
 
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ */
+OWNED Vector * vector_init(OWNED Vector * vec, u64 capacity);
+
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ *
+ * @brief       Customize a @struct {Vector}.
+ *
+ * Possible overloads:
+ * @li OWNED Vector * mk_vector(0)
+ * @li OWNED Vector * mk_vector(1, u64 capacity)
+ */
+OWNED Vector * mk_vector(int mode, ...);
