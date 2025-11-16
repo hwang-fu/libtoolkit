@@ -9,6 +9,12 @@
 #define VECTOR_DEFAULT_CAPACITY (20)
 #endif // VECTOR_DEFAULT_CAPACITY
 
+#define vector_pushfront(vec, value, cleanup) _vector_pushfront(vec, CAST(value, arch), cleanup)
+#define vector_pushback(vec, value, cleanup) _vector_pushback(vec, CAST(value, arch), cleanup)
+
+#define vector_try_pushfront(vec, value, cleanup) _vector_try_pushfront(vec, CAST(value, arch), cleanup)
+#define vector_try_pushback(vec, value, cleanup) _vector_try_pushback(vec, CAST(value, arch), cleanup)
+
 typedef struct Vector Vector;
 typedef struct VectorItem VectorItem;
 
@@ -127,6 +133,20 @@ OWNED Result * _vector_try_pushfront(BORROWED Vector * vec, arch value, dispose_
  * @modified    16.11.2025
  */
 OWNED Result * _vector_try_pushback(BORROWED Vector * vec, arch value, dispose_fn * cleanup);
+
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ */
+void vector_fit(BORROWED Vector * vec, u64 newCapacity);
+
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ */
+OWNED Result * vector_try_fit(BORROWED Vector * vec, u64 newCapacity);
 
 /**
  * @since       16.11.2025
