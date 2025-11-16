@@ -27,6 +27,7 @@ int main()
 #include "./s/test.c"
 #include "./dq/test.c"
 #include "./hm/test.c"
+#include "./vector/test.c"
     fprintf(COUT, "=============== Testing End ===============\n");
     return 0;
 }
