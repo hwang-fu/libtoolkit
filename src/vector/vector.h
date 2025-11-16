@@ -19,8 +19,8 @@ typedef struct VectorData VectorData ;
  */
 struct Vector
 {
-    copied   u64            Capacity;
-    copied   u64            Size;
-    owned    VectorItem **  Items;
+          u64           Capacity;
+          u64           Size;
+    OWNED VectorItem ** Items;
 };
 
