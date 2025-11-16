@@ -10,7 +10,7 @@
 #endif // VECTOR_DEFAULT_CAPACITY
 
 typedef struct Vector Vector;
-typedef struct VectorData VectorData;
+typedef struct VectorItem VectorItem;
 
 /**
  * @since       16.11.2025
