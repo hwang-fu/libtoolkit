@@ -59,6 +59,13 @@ OWNED Vector * mk_vector(int mode, ...);
  * @author      Junzhe
  * @modified    16.11.2025
  */
+arch vector_at(BORROWED Vector * vec, u64 idx);
+
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ */
 arch vector_front(BORROWED Vector * vec);
 
 /**
@@ -81,6 +88,13 @@ arch vector_popfront(BORROWED Vector * vec);
  * @modified    16.11.2025
  */
 arch vector_popback(BORROWED Vector * vec);
+
+/**
+ * @since       16.11.2025
+ * @author      Junzhe
+ * @modified    16.11.2025
+ */
+OWNED Result * vector_try_at(BORROWED Vector * vec, u64 idx);
 
 /**
  * @since       16.11.2025
