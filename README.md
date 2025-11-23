@@ -57,7 +57,7 @@ Provides easy and portable ANSI color output for terminals.
 
 ---
 
-### 2. **libmemory**
+### 2. [**libmemory**](src/memory)
 Safe and convenient wrappers around memory operations.
 
 **Highlights:**
@@ -68,7 +68,7 @@ Safe and convenient wrappers around memory operations.
 
 ---
 
-### 3. **libresult**
+### 3. [**libresult**](src/result)
 A lightweight `Result` structure to express success/failure without relying on global state or exceptions.
 
 **Highlights:**
@@ -78,7 +78,7 @@ A lightweight `Result` structure to express success/failure without relying on g
 
 ---
 
-### 4. **libpair**
+### 4. [**libpair**](src/pair)
 Generic pair data structure for storing two related values.
 
 **Highlights:**
@@ -88,7 +88,7 @@ Generic pair data structure for storing two related values.
 
 ---
 
-### 5. **libassertion**
+### 5. [**libassertion**](src/assertion)
 Runtime assertion utilities.
 
 **Highlights:**
@@ -98,8 +98,8 @@ Runtime assertion utilities.
 
 ---
 
-### 6. **libdequeue**
-A double-ended queue (deque) optimized for fast push/pop from both ends.
+### 6. [**libdequeue**](src/dequeue)
+A double-ended queue (dequeue) optimized for fast push/pop from both ends.
 
 **Highlights:**
 - Stores uniform element types
@@ -109,7 +109,7 @@ A double-ended queue (deque) optimized for fast push/pop from both ends.
 
 ---
 
-### 7. **libvector**
+### 7. [**libvector**](src/vector)
 A dynamic vector that supports storing **multiple types in the same container**.
 
 **Highlights:**
@@ -120,7 +120,7 @@ A dynamic vector that supports storing **multiple types in the same container**.
 
 ---
 
-### 8. **libhashmap**
+### 8. [**libhashmap**](src/hashmap)
 A simple, efficient string-keyed hashmap.
 
 **Highlights:**
