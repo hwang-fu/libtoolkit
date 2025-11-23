@@ -9,14 +9,17 @@
  */
 int mk_simple_fd(BORROWED const char * filename, int mode)
 {
+    TODO;
 }
 
 OWNED Result * fd_simple_read(int fd, u64 size)
 {
+    TODO;
 }
 
 bool fd_simple_write(int fd, BORROWED const u8 * data, u64 size)
 {
+    TODO;
 }
 
 void fd_simple_close(int fd)
