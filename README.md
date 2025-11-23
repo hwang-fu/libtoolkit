@@ -47,7 +47,7 @@ Each module comes with clear and isolated test files.
 
 ## Included Libraries
 
-### 1. **libcrayon**
+### 1. [**libcrayon**](src/crayon)
 Provides easy and portable ANSI color output for terminals.
 
 **Highlights:**
