@@ -136,6 +136,3 @@ A simple, efficient string-keyed hashmap.
 This project is released under the MIT License.
 You are free to use it in personal, academic, or commercial work.
 
----
-
-If you need help writing API documentation, usage examples, or adding more modules (like stacks, string utilities, crypto helpers, JVM parsing, fuzzy finding, JSON/XML, etc.), I can generate full chapters for each library.
